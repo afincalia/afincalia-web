@@ -179,7 +179,7 @@ export default function Blog(){
         <style>{CSS}</style>
         <nav style={{position:"sticky",top:0,zIndex:100,background:"rgba(250,250,248,.97)",backdropFilter:"blur(12px)",borderBottom:`1px solid ${V.borde}`}}>
           <div style={{maxWidth:900,margin:"0 auto",padding:"0 20px",height:60,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-            <Link href="/"><Logo/></Link></a>
+            <Link href="/"><Logo/></Link>
             <button onClick={()=>setArt(null)} style={{background:V.pale,border:"none",borderRadius:100,padding:"8px 20px",cursor:"pointer",fontWeight:700,fontSize:13,color:V.verde,fontFamily:"system-ui"}}>← Volver al blog</button>
           </div>
         </nav>
