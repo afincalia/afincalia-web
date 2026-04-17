@@ -3,12 +3,6 @@ export default async function handler(req, res) {
 
   const { messages } = req.body;
 
-  const SYS = `Eres el asistente de una comunidad de vecinos en España. Responde SIEMPRE así:
-TEXTO: [1-2 frases simples, sin tecnicismos]
-LEY: [artículo corto o "ninguna"]
-URL: [https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906 o "ninguna"]
-TIPO: [URGENTE/ALTA/NORMAL/INFO]`;
-
   try {
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
@@ -18,17 +12,29 @@ TIPO: [URGENTE/ALTA/NORMAL/INFO]`;
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
+        model: "claude-haiku-4-5",
         max_tokens: 300,
-        system: SYS,
-        messages,
+        system: `Eres el asistente de una comunidad de vecinos en España gestionada por AfincalIA.
+Responde SIEMPRE en este formato exacto, sin texto adicional:
+TEXTO: [1-2 frases simples y claras, sin tecnicismos]
+LEY: [artículo y nombre de ley, por ejemplo "Art. 10.1 LPH — reparaciones urgentes", o "ninguna"]
+URL: [URL del BOE si aplica, o "ninguna"]
+TIPO: [URGENTE / ALTA / NORMAL / INFO]
+
+Reglas:
+- Nunca inventes información. Si no sabes, responde TEXTO: No tengo esa información. Tu administrador te responderá en breve.
+- Nunca des consejos médicos, legales vinculantes ni opiniones personales.
+- Cada respuesta debe ser útil, breve y en español neutro.`,
+        messages: messages,
       }),
     });
 
     const data = await response.json();
     const text = data.content?.[0]?.text || "";
     res.status(200).json({ text });
-  } catch (e) {
-    res.status(500).json({ text: "" });
+
+  } catch (error) {
+    console.error("Error API Anthropic:", error);
+    res.status(200).json({ text: "" }); // devuelve vacío para que active el fallback
   }
 }
