@@ -5,12 +5,12 @@ const V={verde:"#1A6B42",osc:"#0C3521",pale:"#EBF4EE",borde:"#C8DFCF",rojo:"#C43
 
 // ⚠️ SUSTITUIR POR URLs REALES DE STRIPE
 const STRIPE={
-  inicio_mensual:"https://buy.stripe.com/SUSTITUIR",
-  inicio_anual:"https://buy.stripe.com/SUSTITUIR",
-  crecimiento_mensual:"https://buy.stripe.com/SUSTITUIR",
-  crecimiento_anual:"https://buy.stripe.com/SUSTITUIR",
-  despacho_mensual:"https://buy.stripe.com/SUSTITUIR",
-  despacho_anual:"https://buy.stripe.com/SUSTITUIR",
+  esencial_mensual:"https://buy.stripe.com/aFa3co6BtfxZ5kF7HK8og01",
+  esencial_anual:"https://buy.stripe.com/6oU4gs5xp71t6oJd248og05",
+  profesional_mensual:"https://buy.stripe.com/7sYeV6f7Z99B9AV8LO8og02",
+  profesional_anual:"https://buy.stripe.com/fZu4gs0d5clN6oJaTW8og06",
+  despacho_mensual:"https://buy.stripe.com/7sY4gs4tl3PhcN71jm8og03",
+  despacho_anual:"https://buy.stripe.com/dRmeV61h9etV3cxaTW8og00",
 };
 
 const SYS=`Eres el asistente de una comunidad de vecinos en España. Responde SIEMPRE así:
