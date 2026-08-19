@@ -173,7 +173,8 @@ function Chat(){
   const [inp,setInp]=useState("");
   const [busy,setBusy]=useState(false);
   const endRef=useRef(null);
-  const hora=new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"});
+  const [hora,setHora]=useState("—");
+  useEffect(()=>{setHora(new Date().toLocaleTimeString("es",{hour:"2-digit",minute:"2-digit"}));},[]);
   useEffect(()=>{endRef.current?.scrollIntoView({behavior:"smooth"});},[msgs,busy]);
 
   const send=async txt=>{
