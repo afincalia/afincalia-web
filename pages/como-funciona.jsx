@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const V={verde:"#1A6B42",osc:"#0C3521",pale:"#EBF4EE",borde:"#C8DFCF",rojo:"#C4362C",tx:"#111917",sub:"#3D4D44",mut:"#9CA3AF",bg:"#FAFAF8",alt:"#F2F5F2",w:"#fff",azul:"#1E4FA3",amarillo:"#D97706"};
-const WA="https://wa.me/34614557419?text=Hola%2C%20me%20interesa%20AfincalIA";
+const WA="https://wa.me/34624934148?text=Hola%2C%20me%20interesa%20AfincalIA";
 
 function Logo(){
   return(
