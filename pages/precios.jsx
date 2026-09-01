@@ -34,7 +34,8 @@ export default function Precios() {
       <section className="pricing-hero page-shell">
         <span className="eyebrow">Planes y precios</span>
         <h1>Empieza por el trabajo que quieres dejar de hacer a mano.</h1>
-        <p>Todos los planes incluyen el núcleo completo —WhatsApp, cerebro, incidencias, tareas, cronología, documentos y actas— y cambian por volumen. Los precios son mensuales y no incluyen IVA ni costes externos de WhatsApp.</p>
+        <p>Todos los planes incluyen el núcleo completo —WhatsApp, cerebro, incidencias, tareas, cronología, documentos y actas— y cambian por volumen. Los precios son mensuales y no incluyen IVA.</p>
+        <p className="source-note"><strong>WhatsApp pertenece al despacho.</strong> Meta cobra directamente al titular el uso de su propia cuenta de WhatsApp Business Platform. AfincalIA no interviene en esa facturación ni aplica recargos.</p>
       </section>
 
       <section className="pricing-grid page-shell">
@@ -56,15 +57,6 @@ export default function Precios() {
       <section className="pilot-price page-shell">
         <div><span className="eyebrow light">Oferta para primeros despachos</span><h2>Un mes de piloto y tres meses más si continúas.</h2><p>El piloto de 30 días es gratuito. Si decides seguir, los tres meses siguientes también serán gratuitos a cambio de uso real y feedback. Después eliges plan y solo se factura con aceptación expresa.</p></div>
         <Link className="button button-coral" href="/piloto">Ver condiciones</Link>
-      </section>
-
-      <section className="whatsapp-cost page-shell">
-        <div className="section-head"><span className="eyebrow">Coste de WhatsApp</span><h2>La ventana de 24 horas sigue existiendo, pero cambia su precio.</h2></div>
-        <div className="whatsapp-cost-grid">
-          <article><small>Hasta el 30 de septiembre de 2026</small><h3>Respuestas de servicio sin cargo de Meta</h3><p>Cuando el vecino escribe, se abre una ventana de 24 horas. Dentro de ella, las respuestas de servicio —también las preparadas por una IA externa— no tienen cargo de Meta. Cada nuevo mensaje del vecino reinicia la ventana.</p></article>
-          <article><small>Desde el 1 de octubre de 2026</small><h3>Meta cobrará por mensaje de servicio</h3><p>Meta ha anunciado facturación por unidad también para las respuestas no plantilla dentro de esa ventana. Los mensajes entrantes continúan siendo gratuitos.</p></article>
-        </div>
-        <p className="source-note">Los cargos de Meta y, cuando corresponda, del proveedor de acceso a WhatsApp Business Platform se facturan aparte. Se aplicará siempre la tarifa vigente. <a href="https://whatsappbusiness.com/products/platform-pricing/" target="_blank" rel="noreferrer">Consultar precios oficiales de WhatsApp ↗</a></p>
       </section>
 
       <section className="pricing-faq page-shell">
