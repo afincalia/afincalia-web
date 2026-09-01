@@ -18,7 +18,7 @@ function Navbar({active}){
         <Logo/>
         <div className="dnav">
           {links.map(([l,href])=><Link key={href} href={href} style={{fontSize:14,color:href===active?V.verde:V.sub,padding:"7px 12px",textDecoration:"none",fontWeight:href===active?700:400}}>{l}</Link>)}
-          <Link href="/precios" style={{marginLeft:12,background:V.verde,color:V.w,borderRadius:100,padding:"10px 22px",fontSize:14,fontWeight:700,textDecoration:"none"}}>14 días gratis</Link>
+          <Link href="/piloto" style={{marginLeft:12,background:V.verde,color:V.w,borderRadius:100,padding:"10px 22px",fontSize:14,fontWeight:700,textDecoration:"none"}}>Solicitar piloto</Link>
         </div>
         <button className="burg" onClick={()=>setMenu(!menu)} style={{background:"none",border:"none",cursor:"pointer",padding:8,display:"flex",flexDirection:"column",gap:5}}>
           {[0,1,2].map(i=><span key={i} style={{display:"block",width:24,height:2,background:V.tx,borderRadius:2,transition:"all .25s",transform:menu&&i===0?"rotate(45deg) translate(5px,5px)":menu&&i===2?"rotate(-45deg) translate(5px,-5px)":"none",opacity:menu&&i===1?0:1}}/>)}
@@ -29,7 +29,7 @@ function Navbar({active}){
           {[["🤖","Cómo funciona","/como-funciona"],["📄","Actas IA","/actas"],["🛡️","RGPD","/rgpd"],["💰","Precios","/precios"],["📝","Blog","/blog"]].map(([ic,l,href])=>(
             <Link key={href} href={href} onClick={()=>setMenu(false)} style={{display:"flex",alignItems:"center",gap:12,fontSize:15,color:V.tx,padding:"12px 0",borderBottom:`1px solid ${V.borde}`,textDecoration:"none"}}><span style={{width:26}}>{ic}</span>{l}</Link>
           ))}
-          <Link href="/precios" style={{display:"block",textAlign:"center",marginTop:16,background:V.verde,color:V.w,borderRadius:100,padding:"14px 0",fontSize:16,fontWeight:700,textDecoration:"none"}}>Empezar 14 días gratis →</Link>
+          <Link href="/piloto" style={{display:"block",textAlign:"center",marginTop:16,background:V.verde,color:V.w,borderRadius:100,padding:"14px 0",fontSize:16,fontWeight:700,textDecoration:"none"}}>Solicitar piloto →</Link>
         </div>
       )}
     </nav>
@@ -86,7 +86,7 @@ export default function RGPD(){
       <section style={{padding:"64px 20px",background:"#0F2D1A",textAlign:"center"}}>
         <div style={{maxWidth:520,margin:"0 auto"}}>
           <h2 style={{fontFamily:"Georgia,serif",fontSize:"clamp(26px,4vw,40px)",color:V.w,marginBottom:14,lineHeight:1.1}}>Contrata tu empleado digital ya</h2>
-          <p style={{fontSize:16,color:"rgba(255,255,255,.55)",marginBottom:28,lineHeight:1.75}}>El guardián RGPD está en todos los planes. 14 días gratis, sin tarjeta.</p>
+          <p style={{fontSize:16,color:"rgba(255,255,255,.55)",marginBottom:28,lineHeight:1.75}}>El enfoque de privacidad y control se aplica a todos los planes. El piloto dura 30 días y no exige tarjeta.</p>
           <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
             <Link href="/precios" style={{background:V.verde,color:V.w,borderRadius:100,padding:"15px 36px",fontSize:16,fontWeight:700,textDecoration:"none"}}>Ver planes →</Link>
             <a href={WA} target="_blank" rel="noopener noreferrer" style={{display:"inline-flex",alignItems:"center",gap:8,background:"transparent",color:V.w,border:"2px solid rgba(255,255,255,.3)",borderRadius:100,padding:"14px 24px",fontSize:15,fontWeight:700,textDecoration:"none"}}><WaSvg s={16}/>WhatsApp</a>
