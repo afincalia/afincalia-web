@@ -21,6 +21,7 @@ const productLinks = [
   ["Atención por WhatsApp", "/producto/whatsapp", "Identidad, contexto y revisión"],
   ["Conocimiento verificado", "/producto/conocimiento", "Respuestas basadas en fuentes del despacho"],
   ["Incidencias y tareas", "/producto/incidencias-tareas", "Responsables, estados y seguimiento"],
+  ["Actas", "/actas", "Del audio o borrador al PDF aprobado"],
   ["Trazabilidad y control", "/producto/trazabilidad", "Cronología, panel y visión operativa"],
 ];
 
@@ -42,6 +43,7 @@ export function Header() {
           <Link href="/como-funciona">Cómo funciona</Link>
           <Link href="/seguridad">Seguridad</Link>
           <Link href="/piloto">Piloto</Link>
+          <Link href="/precios">Precios</Link>
         </nav>
         <Link className="button button-small nav-cta" href="/contacto">Solicitar demo</Link>
         <details className="mobile-menu">
@@ -53,6 +55,7 @@ export function Header() {
             <Link href="/como-funciona">Cómo funciona</Link>
             <Link href="/seguridad">Seguridad</Link>
             <Link href="/piloto">Piloto</Link>
+            <Link href="/precios">Precios</Link>
             <Link className="button" href="/contacto">Solicitar demo</Link>
           </div>
         </details>
@@ -67,7 +70,7 @@ export function Footer() {
       <div className="footer-main">
         <div><Logo /><p>El empleado digital que conoce el contexto del despacho y ayuda al equipo a atender, organizar y resolver.</p></div>
         <div><h3>Producto</h3>{productLinks.slice(1).map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
-        <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto acompañado</Link></div>
+        <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link></div>
         <div><h3>Contacto</h3><a href={`mailto:${EMAIL}`}>{EMAIL}</a><a href="tel:+34624934148">{PHONE}</a><a href={WA_URL}>WhatsApp</a></div>
       </div>
       <div className="footer-note"><span>© 2026 Afincalia · Empresa española</span><span>No sustituye al programa contable ni al criterio profesional.</span></div>
@@ -79,7 +82,7 @@ export function Layout({ children }) {
   return <><Header /><main>{children}</main><Footer /></>;
 }
 
-export function CTA({ eyebrow = "Demostración online", title = "Comprueba el flujo con un caso completo.", text = "Te enseñamos Afincalia sobre un escenario realista de tu despacho, sin cargar información real durante la primera evaluación." }) {
+export function CTA({ eyebrow = "Demostración online", title = "Comprueba el flujo con un caso completo.", text = "Recorre una demostración guiada y comprueba cómo Afincalia organiza un caso completo antes de solicitar el piloto." }) {
   return (
     <section className="cta-band page-shell">
       <div><span className="eyebrow light">{eyebrow}</span><h2>{title}</h2><p>{text}</p></div>

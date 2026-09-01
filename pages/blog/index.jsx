@@ -207,7 +207,7 @@ export default function Blog(){
           ))}
           <div style={{background:V.pale,borderRadius:20,padding:"32px 28px",border:`1px solid ${V.borde}`,marginTop:20}}>
             <p style={{fontWeight:700,fontSize:18,marginBottom:10,color:V.verde,fontFamily:"Georgia,serif"}}>AfincalIA lo gestiona automáticamente</p>
-            <p style={{fontSize:15,color:V.sub,marginBottom:24,lineHeight:1.7}}>14 días gratis con el plan Profesional. Sin tarjeta. En menos de una hora.</p>
+            <p style={{fontSize:15,color:V.sub,marginBottom:24,lineHeight:1.7}}>Un mes de piloto gratis. Sin tarjeta, cobro automático ni permanencia.</p>
             <Link href="/precios" style={{display:"inline-block",background:V.verde,color:V.w,borderRadius:100,padding:"13px 32px",fontWeight:700,fontSize:15,textDecoration:"none"}}>
               Ver planes →
             </Link>
@@ -227,7 +227,7 @@ export default function Blog(){
           <div style={{display:"flex",alignItems:"center",gap:16}}>
             <Link href="/" style={{fontSize:14,color:V.sub,textDecoration:"none"}}>← Web</Link>
             <Link href="/precios" style={{background:V.verde,color:V.w,borderRadius:100,padding:"10px 22px",fontSize:14,fontWeight:700,textDecoration:"none"}}>
-              14 días gratis
+              Solicitar piloto
             </Link>
           </div>
         </div>
@@ -301,7 +301,7 @@ export default function Blog(){
       <div style={{background:"#0F2D1A",padding:"64px 20px",textAlign:"center"}}>
         <div style={{maxWidth:540,margin:"0 auto"}}>
           <h2 style={{fontFamily:"Georgia,serif",fontSize:"clamp(26px,4vw,40px)",color:V.w,marginBottom:16,lineHeight:1.1}}>¿Quieres que AfincalIA lo gestione?</h2>
-          <p style={{fontSize:16,color:"rgba(255,255,255,.55)",marginBottom:32,lineHeight:1.75}}>14 días gratis con el plan Profesional. Sin tarjeta. En menos de una hora.</p>
+          <p style={{fontSize:16,color:"rgba(255,255,255,.55)",marginBottom:32,lineHeight:1.75}}>Un mes de piloto gratis. Sin tarjeta, cobro automático ni permanencia.</p>
           <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap"}}>
             <Link href="/precios" style={{background:V.verde,color:V.w,borderRadius:100,padding:"15px 36px",fontSize:16,fontWeight:700,textDecoration:"none"}}>
               Empezar gratis →

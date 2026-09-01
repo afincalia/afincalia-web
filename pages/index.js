@@ -6,6 +6,7 @@ const features = [
   ["Atención por WhatsApp", "Identifica al vecino y su comunidad, conserva el contexto y prepara una respuesta para revisión.", "/producto/whatsapp"],
   ["Conocimiento verificado", "Responde desde documentos y datos que el despacho ha revisado, sin mezclar comunidades.", "/producto/conocimiento"],
   ["Incidencias y tareas", "Convierte una conversación en trabajo asignable, con prioridad, responsable y estado.", "/producto/incidencias-tareas"],
+  ["Actas", "Convierte audio, fotografía, PDF o notas en un borrador revisable, tareas y un PDF aprobado.", "/actas"],
   ["Trazabilidad y control", "Registra mensajes, decisiones y cambios para saber qué ocurrió y qué sigue pendiente.", "/producto/trazabilidad"],
 ];
 
@@ -18,7 +19,7 @@ export default function Home() {
           <span className="eyebrow">Administración de fincas con menos trabajo disperso</span>
           <h1>Tu empleado digital para la <em>administración de fincas.</em></h1>
           <p>AfincalIA conoce el contexto de tu despacho, entiende cada comunidad y ayuda a atender, organizar y resolver el trabajo diario.</p>
-          <div className="hero-tags" aria-label="Áreas de Afincalia"><span>WhatsApp</span><span>Memoria del despacho</span><span>Incidencias</span><span>Tareas</span></div>
+          <div className="hero-tags" aria-label="Áreas de Afincalia"><span>WhatsApp</span><span>Memoria del despacho</span><span>Incidencias</span><span>Tareas</span><span>Actas</span></div>
           <div className="actions"><Link className="button" href="/como-funciona">Ver cómo trabaja</Link><Link className="text-link" href="/contacto">Solicitar piloto →</Link></div>
           <p className="hero-note">Sin cambiar tu programa de gestión. Tú decides qué puede hacer AfincalIA y qué debe revisar una persona.</p>
         </div>
@@ -37,6 +38,10 @@ export default function Home() {
         <div><b>Un responsable</b><span>Incidencias convertidas en tareas con seguimiento.</span></div>
         <div><b>Una historia</b><span>Cronología completa de mensajes, cambios y resolución.</span></div>
       </section>
+      <section className="consultation-pain page-shell">
+        <div><span className="eyebrow">La primera línea del despacho</span><h2>Las consultas no solo ocupan tiempo. También desgastan.</h2><p>Mensajes repetidos, urgencias que no son urgencias, respuestas exigidas al momento y conversaciones que empiezan con tensión. AfincalIA absorbe la primera atención, mantiene un tono profesional y resuelve lo que puede con información verificada. El equipo entra cuando el caso realmente necesita criterio humano.</p></div>
+        <div className="consultation-list"><div><b>Responde sin entrar en el conflicto</b><span>Contesta con calma, contexto y una fuente válida aunque el mensaje llegue con mal tono.</span></div><div><b>Evita repetir la misma explicación</b><span>Las consultas habituales dejan de interrumpir una y otra vez a los empleados.</span></div><div><b>Deriva lo sensible</b><span>Reclamaciones, riesgos y decisiones delicadas pasan a revisión humana con todo el contexto preparado.</span></div></div>
+      </section>
       <section className="problem-section page-shell">
         <div className="section-head"><span className="eyebrow">El problema diario</span><h2>La información llega por todas partes. La responsabilidad, no.</h2><p>Cuando WhatsApp, llamadas, documentos y notas viven separados, el despacho invierte tiempo reconstruyendo el contexto y el vecino no sabe qué está pasando.</p></div>
         <div className="problem-grid">
@@ -46,7 +51,7 @@ export default function Home() {
         </div>
       </section>
       <section className="features-section page-shell">
-        <div className="section-head"><span className="eyebrow">El producto, por dentro</span><h2>Cuatro piezas conectadas. No cuatro herramientas aisladas.</h2><p>Entra en cada área para ver qué resuelve, cómo funciona y qué control conserva el equipo.</p></div>
+        <div className="section-head"><span className="eyebrow">El producto, por dentro</span><h2>Cinco piezas conectadas. No cinco herramientas aisladas.</h2><p>Entra en cada área para ver qué resuelve, cómo funciona y qué control conserva el equipo.</p></div>
         <div className="feature-grid">{features.map(([title, text, href], index) => <Link className="feature-card" href={href} key={href}><small>0{index + 1}</small><b>↗</b><h3>{title}</h3><p>{text}</p></Link>)}</div>
       </section>
       <section className="memory-section page-shell">
@@ -64,7 +69,7 @@ export default function Home() {
         <div className="screens-grid"><figure><img src="/demo/02-conversations.jpg" alt="Bandeja de conversaciones" /><figcaption>Conversaciones organizadas y revisión humana</figcaption></figure><figure><img src="/demo/04-incidents.jpg" alt="Panel de incidencias" /><figcaption>Incidencias con prioridad y estado</figcaption></figure><figure><img src="/demo/05-tasks.jpg" alt="Gestión de tareas" /><figcaption>Tareas, responsables y vencimientos</figcaption></figure></div>
       </section>
       <section className="demo-experience page-shell"><div><span className="eyebrow">Demo interactiva</span><h2>Prueba cómo trabaja AfincalIA.</h2><p>Sin registro y sin información real. El recorrido guiado enseña la consulta de un vecino, la respuesta con contexto, la incidencia, la tarea y el cierre registrado.</p></div><div className="demo-actions"><span>💬 Consulta del vecino</span><span>🛠️ Incidencia y tarea</span><span>🧠 Información verificada</span><a className="button" href={DEMO_URL}>Abrir demostración</a></div></section>
-      <CTA title="30 días para medir cuánto trabajo puede asumir AfincalIA." text="Configuramos un caso prioritario, acompañamos al equipo y cerramos el piloto con resultados concretos sobre consultas, incidencias, tareas y uso del conocimiento del despacho." />
+      <CTA title="30 días para medir cuánto trabajo puede asumir AfincalIA." text="El despacho activa un caso prioritario mediante un recorrido guiado y obtiene resultados concretos sobre consultas, incidencias, tareas, actas y uso del conocimiento." />
     </Layout>
   );
 }
