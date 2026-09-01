@@ -33,7 +33,7 @@ export function Header() {
           <details className="nav-dropdown">
             <summary>Producto <span aria-hidden="true">⌄</span></summary>
             <div className="dropdown-panel">
-              <p>La capa operativa del despacho</p>
+              <p>Tu empleado digital</p>
               {productLinks.map(([label, href, description]) => (
                 <Link href={href} key={href}><strong>{label}</strong><span>{description}</span></Link>
               ))}
@@ -65,7 +65,7 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-main">
-        <div><Logo /><p>La capa inteligente de atención y operaciones para administradores de fincas.</p></div>
+        <div><Logo /><p>El empleado digital que conoce el contexto del despacho y ayuda al equipo a atender, organizar y resolver.</p></div>
         <div><h3>Producto</h3>{productLinks.slice(1).map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
         <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto acompañado</Link></div>
         <div><h3>Contacto</h3><a href={`mailto:${EMAIL}`}>{EMAIL}</a><a href="tel:+34624934148">{PHONE}</a><a href={WA_URL}>WhatsApp</a></div>

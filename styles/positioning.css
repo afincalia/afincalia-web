@@ -1,0 +1,12 @@
+@media(max-width:900px){
+  .memory-section,.demo-experience{grid-template-columns:1fr;gap:34px}
+  .roi-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:620px){
+  .before-after,.roi-grid{grid-template-columns:1fr}
+  .compare-card{padding:26px 22px}
+  .memory-section{width:calc(100% - 24px);padding:36px 24px;margin-bottom:75px}
+  .demo-experience{width:calc(100% - 24px);padding:34px 24px;margin-bottom:75px}
+  .hero-tags{margin-top:18px}
+}
