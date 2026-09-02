@@ -5,14 +5,14 @@ import { Layout } from "../components/SiteChrome";
 const plans = [
   {
     name: "Esencial",
-    price: "69",
+    price: "99",
     scope: "Hasta 25 comunidades",
     description: "El empleado digital completo para un despacho con un volumen inicial de comunidades.",
     features: ["Atención por WhatsApp", "Cerebro y memoria de comunidades", "Respuestas desde información verificada", "Incidencias, tareas y cronología", "Actas: extracción, revisión, tareas y PDF"],
   },
   {
     name: "Profesional",
-    price: "159",
+    price: "199",
     scope: "Hasta 75 comunidades",
     featured: true,
     description: "El mismo núcleo completo, preparado para más comunidades y mayor actividad diaria.",
@@ -20,7 +20,7 @@ const plans = [
   },
   {
     name: "Despacho",
-    price: "249",
+    price: "299",
     scope: "Hasta 150 comunidades",
     description: "El mismo producto completo para equipos con más volumen y necesidad de control interno.",
     features: ["Todo el producto base", "Hasta 150 comunidades", "Mayor volumen operativo", "Usuarios, roles y auditoría", "Soporte prioritario por correo y WhatsApp"],
