@@ -1,9 +1,29 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { CTA, DEMO_URL, Layout } from "./SiteChrome";
 
-export function Meta({ title, description }) {
-  return <Head><title>{title} · Afincalia</title><meta name="description" content={description} /><meta name="viewport" content="width=device-width, initial-scale=1" /></Head>;
+export function Meta({ title, description, path, type = "website" }) {
+  const router = useRouter();
+  const siteUrl = "https://afincalia.es";
+  const cleanPath = (path || router.asPath || "/").split("?")[0];
+  const canonical = `${siteUrl}${cleanPath === "/" ? "" : cleanPath}`;
+  const fullTitle = title.includes("AfincalIA") ? title : `${title} · AfincalIA`;
+  return <Head>
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="AfincalIA" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+  </Head>;
 }
 
 export function PageHero({ eyebrow, title, text, image, imageAlt, children }) {

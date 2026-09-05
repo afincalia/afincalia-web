@@ -13,14 +13,14 @@ const features = [
 export default function Home() {
   return (
     <Layout>
-      <Meta title="Tu empleado digital para la administración de fincas" description="Afincalia conoce el contexto de tu despacho y ayuda a atender, organizar y resolver el trabajo diario." />
+      <Meta title="IA operativa para administradores de fincas" description="Convierte cada consulta de WhatsApp en una respuesta verificada, una incidencia, una tarea y un seguimiento trazable. Sin sustituir tu software contable." />
       <section className="hero page-shell">
         <div className="hero-copy">
-          <span className="eyebrow">Administración de fincas con menos trabajo disperso</span>
-          <h1>Tu empleado digital para la <em>administración de fincas.</em></h1>
-          <p>AfincalIA conoce el contexto de tu despacho, entiende cada comunidad y ayuda a atender, organizar y resolver el trabajo diario.</p>
+          <span className="eyebrow">Capa operativa inteligente para administradores de fincas</span>
+          <h1>Cada consulta de WhatsApp, convertida en <em>trabajo resuelto.</em></h1>
+          <p>AfincalIA identifica al vecino y su comunidad, prepara una respuesta con información verificada y convierte la conversación en incidencia, tarea, responsable y seguimiento.</p>
           <div className="hero-tags" aria-label="Áreas de Afincalia"><span>WhatsApp</span><span>Memoria del despacho</span><span>Incidencias</span><span>Tareas</span><span>Actas</span></div>
-          <div className="actions"><Link className="button" href="/como-funciona">Ver cómo trabaja</Link><Link className="text-link" href="/contacto">Solicitar piloto →</Link></div>
+          <div className="actions"><Link className="button" href="/piloto">Solicitar piloto fundador</Link><Link className="text-link" href="/como-funciona">Ver un caso completo →</Link></div>
           <p className="hero-note">Sin cambiar tu programa de gestión. Tú decides qué puede hacer AfincalIA y qué debe revisar una persona.</p>
         </div>
         <div className="product-shot"><img src="/demo/01-dashboard.jpg" alt="Panel operativo real de Afincalia" /></div>

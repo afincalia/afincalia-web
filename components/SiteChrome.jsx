@@ -34,7 +34,7 @@ export function Header() {
           <details className="nav-dropdown">
             <summary>Producto <span aria-hidden="true">⌄</span></summary>
             <div className="dropdown-panel">
-              <p>Tu empleado digital</p>
+              <p>La capa operativa del despacho</p>
               {productLinks.map(([label, href, description]) => (
                 <Link href={href} key={href}><strong>{label}</strong><span>{description}</span></Link>
               ))}
@@ -44,6 +44,7 @@ export function Header() {
           <Link href="/seguridad">Seguridad</Link>
           <Link href="/piloto">Piloto</Link>
           <Link href="/precios">Precios</Link>
+          <Link href="/blog">Recursos</Link>
         </nav>
         <Link className="button button-small nav-cta" href="/contacto">Solicitar demo</Link>
         <details className="mobile-menu">
@@ -56,6 +57,7 @@ export function Header() {
             <Link href="/seguridad">Seguridad</Link>
             <Link href="/piloto">Piloto</Link>
             <Link href="/precios">Precios</Link>
+            <Link href="/blog">Recursos</Link>
             <Link className="button" href="/contacto">Solicitar demo</Link>
           </div>
         </details>
@@ -68,9 +70,9 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-main">
-        <div><Logo /><p>El empleado digital que conoce el contexto del despacho y ayuda al equipo a atender, organizar y resolver.</p></div>
+        <div><Logo /><p>La capa operativa que convierte conversaciones en respuestas verificadas, incidencias, tareas y seguimiento.</p></div>
         <div><h3>Producto</h3>{productLinks.slice(1).map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
-        <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link></div>
+        <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link><Link href="/blog">Recursos</Link></div>
         <div><h3>Contacto</h3><a href={`mailto:${EMAIL}`}>{EMAIL}</a><a href="tel:+34624934148">{PHONE}</a><a href={WA_URL}>WhatsApp</a></div>
       </div>
       <div className="footer-note"><span>© 2026 Afincalia · Empresa española</span><span>No sustituye al programa contable ni al criterio profesional.</span></div>

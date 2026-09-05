@@ -22,10 +22,10 @@ const areas = [
 export default function Producto() {
   return (
     <Layout>
-      <Meta title="Producto" description="Conoce cómo trabaja el empleado digital de AfincalIA junto al equipo del despacho." />
+      <Meta title="Producto" description="Conoce cómo la capa operativa de AfincalIA conecta conversaciones, conocimiento, incidencias, tareas y actas." />
       <section className="overview-intro page-shell">
         <span className="eyebrow">Vista general del producto</span>
-        <h1>Un empleado digital entre el mensaje y el trabajo terminado.</h1>
+        <h1>Una capa operativa entre el mensaje y el trabajo terminado.</h1>
         <p>AfincalIA conoce el contexto del despacho y ayuda al equipo a entender, responder, organizar, ejecutar y dejar constancia. No obliga a sustituir el programa contable: trabaja sobre la parte operativa que consume tiempo cada día.</p>
       </section>
       <section className="overview-map page-shell">

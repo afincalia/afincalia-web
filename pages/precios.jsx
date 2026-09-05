@@ -7,7 +7,7 @@ const plans = [
     name: "Esencial",
     price: "99",
     scope: "Hasta 25 comunidades",
-    description: "El empleado digital completo para un despacho con un volumen inicial de comunidades.",
+    description: "La capa operativa completa para un despacho con un volumen inicial de comunidades.",
     features: ["Atención por WhatsApp", "Cerebro y memoria de comunidades", "Respuestas desde información verificada", "Incidencias, tareas y cronología", "Actas: extracción, revisión, tareas y PDF"],
   },
   {

@@ -4,7 +4,6 @@ const nextConfig = {
   async redirects() {
     return [
       { source: '/rgpd', destination: '/seguridad', permanent: true },
-      { source: '/blog', destination: '/', permanent: true },
     ]
   },
 }
