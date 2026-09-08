@@ -5,6 +5,18 @@ export const PRIVACY_VERSION = '2026-09-08';
 // Creation predates every possible attempt, so this bound needs no second outbox.
 export const NOTIFICATION_RETRY_WINDOW_MS = 23 * 60 * 60 * 1000;
 export type Lead = { name: string; company: string; email: string; phone: string; communities: string; message: string; interest: string; source: string; consent: boolean; website?: string; requestId: string };
+export function allowedLeadOrigin(origin: unknown): boolean {
+  if (origin === 'https://afincalia.es') return true;
+  if (process.env.NODE_ENV === 'development' && origin === 'http://localhost:3000') return true;
+  // A single operator-selected origin, never a wildcard or a client-supplied Host.
+  if (process.env.VERCEL_ENV !== 'preview' || process.env.VERCEL_GIT_COMMIT_REF !== 'codex/validacion-formulario') return false;
+  const configured = process.env.LEAD_PREVIEW_ORIGIN?.trim();
+  if (!configured || origin !== configured) return false;
+  try {
+    const url = new URL(configured);
+    return url.protocol === 'https:' && url.origin === configured && !url.username && !url.password && !url.port && url.hostname.endsWith('.vercel.app');
+  } catch { return false; }
+}
 export function sourcePath(value: unknown): string {
   if (typeof value !== 'string') return '/';
   const path = value.split(/[?#]/)[0];

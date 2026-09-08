@@ -4,6 +4,27 @@ const { validateLead, sourcePath, fingerprint, ready, notifyLead } = require('..
 const handler = require('../.test-build/pages/api/leads.js').default;
 const originalFetch = global.fetch;
 const originalEnv = {...process.env};
+test('only the explicitly configured preview origin reaches the form backend',async()=>{
+  enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  const origin='https://afincalia-web-dxnf-controlled-afincalia.vercel.app';process.env.LEAD_PREVIEW_ORIGIN=origin;
+  const calls=[];global.fetch=async(url)=>{calls.push(url);if(url.includes('/rpc/'))return new Response(JSON.stringify({lead:{...valid,id:'controlled-preview',created_at:new Date().toISOString()}}));if(url.includes('resend'))return new Response('{"id":"controlled-email"}');return new Response('[]');};
+  assert.equal((await send(valid,{origin})).statusCode,201);
+  assert.equal(calls.length,3);
+  for(const other of ['https://another.vercel.app',origin+'.evil.example','null','',origin+'/'])assert.equal((await send(valid,{origin:other})).statusCode,403);
+  assert.equal(calls.length,3);
+});
+test('preview permission fails closed in production, other branches and malformed configuration',async()=>{
+  enable();const origin='https://afincalia-web-dxnf-controlled-afincalia.vercel.app';process.env.LEAD_PREVIEW_ORIGIN=origin;
+  global.fetch=()=>{throw new Error('unexpected persistence');};
+  for(const [environment,branch] of [['production','codex/validacion-formulario'],['preview','main'],['','codex/validacion-formulario']]){
+    process.env.VERCEL_ENV=environment;process.env.VERCEL_GIT_COMMIT_REF=branch;
+    assert.equal((await send(valid,{origin})).statusCode,403);
+  }
+  process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  for(const value of ['http://preview.vercel.app','https://preview.vercel.app:444','https://preview.vercel.app/path','https://user@preview.vercel.app','https://evil.example','*','']){
+    process.env.LEAD_PREVIEW_ORIGIN=value;assert.equal((await send(valid,{origin:value})).statusCode,403);
+  }
+});
 afterEach(() => { global.fetch = originalFetch; for (const key of Object.keys(process.env)) if (!(key in originalEnv)) delete process.env[key]; Object.assign(process.env, originalEnv); });
 const valid = {name:'Prueba QA', company:'Despacho de prueba', email:'qa@example.com',phone:'',communities:'25',message:'Prueba controlada',interest:'demo',source:'/precios?email=private', consent:true,requestId:'bb988fe0-41d3-4b9e-a734-524601c61b1e'};
 function enable() { for(const key of ['AFINCALIA_LEGAL_NAME','AFINCALIA_TAX_ID','AFINCALIA_LEGAL_ADDRESS','AFINCALIA_LEAD_RETENTION','SUPABASE_URL','SUPABASE_SECRET_KEY','RESEND_API_KEY','AFINCALIA_EMAIL_FROM','LEAD_RATE_SECRET','CRON_SECRET']) process.env[key]='test-only'; process.env.SUPABASE_URL='https://example.supabase.co';process.env.LEADS_ENABLED='true'; }
