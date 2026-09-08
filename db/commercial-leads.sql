@@ -44,7 +44,7 @@ begin
   if hits > 5 then return '{"limited":true}'::jsonb; end if;
   delete from public.commercial_rate_limits where window_start < now()-interval '2 days';
   insert into public.commercial_leads(request_id,fingerprint,name,company,email,phone,communities,message,interest,source,privacy_version)
-  values ((payload->>'requestId')::uuid,dedup_hash,payload->>'name',payload->>'company',payload->>'email',payload->>'phone',payload->>'communities',payload->>'message',payload->>'interest',payload->>'source',payload->>'privacy_version)
+  values ((payload->>'requestId')::uuid,dedup_hash,payload->>'name',payload->>'company',payload->>'email',payload->>'phone',payload->>'communities',payload->>'message',payload->>'interest',payload->>'source',payload->>'privacy_version')
   returning * into item;
   return jsonb_build_object('lead',to_jsonb(item));
 end $$;

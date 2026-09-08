@@ -1,6 +1,9 @@
 import { createHash, createHmac } from 'node:crypto';
 
 export const PRIVACY_VERSION = '2026-09-08';
+// Resend retains idempotency keys for 24 hours. Stop conservatively before expiry.
+// Creation predates every possible attempt, so this bound needs no second outbox.
+export const NOTIFICATION_RETRY_WINDOW_MS = 23 * 60 * 60 * 1000;
 export type Lead = { name: string; company: string; email: string; phone: string; communities: string; message: string; interest: string; source: string; consent: boolean; website?: string; requestId: string };
 export function sourcePath(value: unknown): string {
   if (typeof value !== 'string') return '/';
@@ -46,6 +49,12 @@ export function fingerprint(lead: Lead) {
 }
 export async function notifyLead(row: Record<string, any>): Promise<boolean> {
   if (row.notified_at) return true;
+  const created = Date.parse(row.created_at);
+  const age = Date.now() - created;
+  if (!Number.isFinite(age) || age < 0 || age >= NOTIFICATION_RETRY_WINDOW_MS) {
+    console.error(JSON.stringify({ event: 'lead_notification_reconciliation_required', leadId: row.id }));
+    return false;
+  }
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST', signal: AbortSignal.timeout(8000),
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `commercial-lead/${row.id}` },
