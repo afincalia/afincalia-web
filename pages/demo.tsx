@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import Head from "next/head";
+import { Meta } from "../components/PageParts";
 import Link from "next/link";
 
 const steps = [
@@ -24,7 +24,7 @@ export default function DemoPage() {
 
   return (
     <div className="demo-shell">
-      <Head><title>Demo de AfincalIA: del mensaje a la tarea</title><meta name="description" content="Prueba sin registro un caso guiado: mensaje, fuente verificada, revisión humana, incidencia, tarea y trazabilidad."/><link rel="canonical" href="https://afincalia.es/demo"/><meta property="og:title" content="Prueba el empleado digital de tu despacho"/><meta property="og:description" content="Recorre un caso de AfincalIA sin registro, con datos simulados."/><meta property="og:type" content="website"/><meta property="og:url" content="https://afincalia.es/demo"/><meta property="og:image" content="https://afincalia.es/og-afincalia.png"/><meta name="twitter:card" content="summary_large_image"/><link rel="icon" href="/favicon.ico"/></Head>
+      <Meta title="Demo de AfincalIA: del mensaje a la tarea" description="Prueba sin registro un caso guiado: mensaje, fuente verificada, revisión humana, incidencia, tarea y trazabilidad." path="/demo" />
       <aside className="demo-sidebar">
         <div className="demo-brand"><span className="brand-dots">•••<br/>•••••</span><strong>Afincal<span>IA</span></strong></div>
         <p className="nav-label">TRABAJO DIARIO</p>

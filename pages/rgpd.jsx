@@ -12,7 +12,7 @@ const principles=[
 export default function Rgpd(){return <Layout>
   <Meta title="RGPD y tratamiento de datos" description="Criterios de privacidad, control y contratación que AfincalIA aplica antes de incorporar datos reales de un despacho." path="/rgpd" />
   <section className="content-page page-shell">
-    <div className="section-head"><span className="eyebrow">Privacidad y RGPD</span><h2>La confianza se documenta antes de incorporar datos reales.</h2><p>AfincalIA se evalúa primero con información de demostración. Para cada piloto real se identifican las partes, finalidades, accesos, conservación, proveedores y medidas aplicables antes de comenzar el tratamiento.</p></div>
+    <div className="section-head"><span className="eyebrow">Privacidad y RGPD</span><h1>La confianza se documenta antes de incorporar datos reales.</h1><p>AfincalIA se evalúa primero con información de demostración. Para cada piloto real se identifican las partes, finalidades, accesos, conservación, proveedores y medidas aplicables antes de comenzar el tratamiento.</p></div>
     <div className="policy-grid">{principles.map(([title,text])=><article key={title}><h2>{title}</h2><p>{text}</p></article>)}</div>
     <div className="legal-note"><strong>Alcance de esta información:</strong> describe el enfoque operativo del producto. No sustituye el análisis jurídico del despacho ni promete cumplimiento automático. Las condiciones concretas se recogen en los documentos contractuales del piloto.</div>
     <p style={{marginTop:24}}><Link className="text-link" href="/seguridad">Ver privacidad y seguridad →</Link></p>

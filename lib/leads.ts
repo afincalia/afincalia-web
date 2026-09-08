@@ -42,7 +42,7 @@ export function rateHash(ip: string) {
   return createHmac('sha256', process.env.LEAD_RATE_SECRET || '').update(`${new Date().toISOString().slice(0,10)}:${ip}`).digest('hex');
 }
 export function fingerprint(lead: Lead) {
-  return createHash('sha256').update(JSON.stringify([lead.email, lead.company.toLowerCase(), lead.interest, lead.message])).digest('hex');
+  return createHash('sha256').update(JSON.stringify([lead.email, lead.company.toLowerCase(), lead.interest, lead.message, lead.name, lead.phone, lead.communities])).digest('hex');
 }
 export async function notifyLead(row: Record<string, any>): Promise<boolean> {
   if (row.notified_at) return true;

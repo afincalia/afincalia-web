@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /qa-preview
 
 Sitemap: https://afincalia.es/sitemap.xml
