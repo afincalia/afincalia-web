@@ -6,7 +6,7 @@ const features = [
   ["Atención por WhatsApp", "Identifica al vecino y su comunidad, conserva el contexto y prepara una respuesta para revisión.", "/producto/whatsapp"],
   ["Conocimiento verificado", "Responde desde documentos y datos que el despacho ha revisado, sin mezclar comunidades.", "/producto/conocimiento"],
   ["Incidencias y tareas", "Convierte una conversación en trabajo asignable, con prioridad, responsable y estado.", "/producto/incidencias-tareas"],
-  ["Actas", "Convierte audio, fotografía, PDF o notas en un borrador revisable, tareas y un PDF aprobado.", "/actas"],
+  ["Actas", "Convierte notas o fotografías de los apuntes en un borrador revisable, tareas y un PDF aprobado.", "/actas"],
   ["Trazabilidad y control", "Registra mensajes, decisiones y cambios para saber qué ocurrió y qué sigue pendiente.", "/producto/trazabilidad"],
 ];
 
@@ -16,17 +16,17 @@ export default function Home() {
       <Meta title="IA operativa para administradores de fincas" description="Convierte cada consulta de WhatsApp en una respuesta verificada, una incidencia, una tarea y un seguimiento trazable. Sin sustituir tu software contable." />
       <section className="hero page-shell">
         <div className="hero-copy">
-          <span className="eyebrow">Capa operativa inteligente para administradores de fincas</span>
-          <h1>Cada consulta de WhatsApp, convertida en <em>trabajo resuelto.</em></h1>
+          <span className="eyebrow">Tu empleado digital para la administración de fincas</span>
+          <h1>Un empleado digital que convierte mensajes en <em>trabajo organizado.</em></h1>
           <p>AfincalIA identifica al vecino y su comunidad, prepara una respuesta con información verificada y convierte la conversación en incidencia, tarea, responsable y seguimiento.</p>
           <div className="hero-tags" aria-label="Áreas de Afincalia"><span>WhatsApp</span><span>Memoria del despacho</span><span>Incidencias</span><span>Tareas</span><span>Actas</span></div>
-          <div className="actions"><Link className="button" href="/piloto">Solicitar piloto fundador</Link><Link className="text-link" href="/como-funciona">Ver un caso completo →</Link></div>
+          <div className="actions"><Link className="button" href="/contacto?interes=piloto&origen=/">Solicitar piloto</Link><Link className="text-link" href="/demo">Probar la demo →</Link></div>
           <p className="hero-note">Sin cambiar tu programa de gestión. Tú decides qué puede hacer AfincalIA y qué debe revisar una persona.</p>
         </div>
         <div className="product-shot"><img src="/demo/01-dashboard.jpg" alt="Panel operativo real de Afincalia" /></div>
       </section>
       <section className="benefit-section page-shell">
-        <div className="section-head"><span className="eyebrow">La diferencia en un caso real</span><h2>Menos pasos manuales entre el mensaje y la solución.</h2></div>
+        <div className="section-head"><span className="eyebrow">La diferencia en el trabajo diario</span><h2>Menos pasos manuales entre el mensaje y la solución.</h2></div>
         <div className="before-after">
           <article className="compare-card before"><span>Sin AfincalIA</span><h3>El equipo reconstruye el caso</h3><ol><li>Leer el WhatsApp</li><li>Identificar la comunidad</li><li>Buscar el documento o preguntar</li><li>Anotar la incidencia</li><li>Recordar quién debe ocuparse</li><li>Volver al chat para responder</li></ol></article>
           <article className="compare-card after"><span>Con AfincalIA</span><h3>El caso llega con contexto</h3><ol><li>Identifica contacto y comunidad</li><li>Recupera información validada</li><li>Prepara una respuesta revisable</li><li>Convierte el mensaje en incidencia</li><li>Vincula responsable y tarea</li><li>Registra cambios y resolución</li></ol></article>

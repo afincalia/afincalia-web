@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "pages/api/leads.ts": {
+      "maxDuration": 30
+    },
+    "pages/api/lead-notifications.ts": {
+      "maxDuration": 60
+    }
+  }
+}

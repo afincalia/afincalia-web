@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export const DEMO_URL = "https://afincalia-app.vercel.app/demo";
+export const DEMO_URL = "/demo";
 export const EMAIL = "hola@afincalia.es";
 export const PHONE = "624 934 148";
 export const WA_URL = "https://wa.me/34624934148?text=Hola%2C%20quiero%20conocer%20Afincalia";
@@ -21,11 +23,19 @@ const productLinks = [
   ["Atención por WhatsApp", "/producto/whatsapp", "Identidad, contexto y revisión"],
   ["Conocimiento verificado", "/producto/conocimiento", "Respuestas basadas en fuentes del despacho"],
   ["Incidencias y tareas", "/producto/incidencias-tareas", "Responsables, estados y seguimiento"],
-  ["Actas", "/actas", "Del audio o borrador al PDF aprobado"],
+  ["Actas", "/actas", "De notas o fotos al PDF aprobado"],
   ["Trazabilidad y control", "/producto/trazabilidad", "Cronología, panel y visión operativa"],
 ];
 
 export function Header() {
+  const router = useRouter();
+  useEffect(() => {
+    const close = () => document.querySelectorAll(".mobile-menu, .nav-dropdown").forEach(el => el.removeAttribute("open"));
+    const onKey = event => { if (event.key === "Escape") close(); };
+    router.events.on("routeChangeStart", close);
+    document.addEventListener("keydown", onKey);
+    return () => { router.events.off("routeChangeStart", close); document.removeEventListener("keydown", onKey); };
+  }, [router.events]);
   return (
     <header className="site-header">
       <div className="nav-shell">
@@ -75,20 +85,22 @@ export function Footer() {
         <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link><Link href="/blog">Recursos</Link></div>
         <div><h3>Contacto</h3><a href={`mailto:${EMAIL}`}>{EMAIL}</a><a href="tel:+34624934148">{PHONE}</a><a href={WA_URL}>WhatsApp</a></div>
       </div>
+      <nav className="footer-legal" aria-label="Información legal"><Link href="/aviso-legal">Aviso legal</Link><Link href="/politica-privacidad">Privacidad</Link><Link href="/cookies">Cookies y medición</Link></nav>
       <div className="footer-note"><span>© 2026 Afincalia · Empresa española</span><span>No sustituye al programa contable ni al criterio profesional.</span></div>
     </footer>
   );
 }
 
 export function Layout({ children }) {
-  return <><Header /><main>{children}</main><Footer /></>;
+  return <><a className="skip-link" href="#contenido">Saltar al contenido</a><Header /><main id="contenido">{children}</main><Footer /></>;
 }
 
 export function CTA({ eyebrow = "Demostración online", title = "Comprueba el flujo con un caso completo.", text = "Recorre una demostración guiada y comprueba cómo Afincalia organiza un caso completo antes de solicitar el piloto." }) {
+  const router = useRouter();
   return (
     <section className="cta-band page-shell">
       <div><span className="eyebrow light">{eyebrow}</span><h2>{title}</h2><p>{text}</p></div>
-      <div className="actions"><Link className="button button-coral" href="/contacto">Solicitar demo</Link><Link className="button button-light" href="/piloto">Ver condiciones del piloto</Link></div>
+      <div className="actions"><Link className="button button-coral" href={{pathname:"/contacto",query:{origen:router.pathname}}}>Solicitar demo</Link><Link className="button button-light" href="/piloto">Ver condiciones del piloto</Link></div>
     </section>
   );
 }

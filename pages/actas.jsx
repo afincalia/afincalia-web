@@ -3,7 +3,7 @@ import { Meta } from "../components/PageParts";
 import { CTA, Layout } from "../components/SiteChrome";
 
 const steps = [
-  ["01", "Añade el original", "Sube un audio, una fotografía, un PDF o pega las notas de la junta. El archivo queda privado y vinculado a su comunidad."],
+  ["01", "Añade el original", "Sube una fotografía de los apuntes o pega las notas de la junta. El archivo queda privado y vinculado a su comunidad."],
   ["02", "Obtén el borrador", "AfincalIA transcribe y separa asistentes, orden del día, votaciones, acuerdos, responsables y vencimientos."],
   ["03", "Revisa la evidencia", "Cada punto permanece pendiente de revisión. El administrador contrasta la extracción con el original y corrige lo necesario."],
   ["04", "Convierte acuerdos en trabajo", "Los acuerdos pueden generar tareas con responsable y fecha sin volver a copiarlos en otra herramienta."],
@@ -14,7 +14,7 @@ const steps = [
 export default function Actas() {
   return (
     <Layout>
-      <Meta title="Actas" description="Convierte audio, fotografía, PDF o notas de una junta en un acta revisada, aprobada y conectada con las tareas del despacho." />
+      <Meta title="Actas" description="Convierte notas o fotografías de los apuntes de una junta en un acta revisada, aprobada y conectada con las tareas del despacho." />
       <section className="actas-hero page-shell">
         <div>
           <span className="eyebrow">Actas conectadas con el trabajo</span>
@@ -23,7 +23,7 @@ export default function Actas() {
           <div className="actions"><Link className="button" href="/contacto">Solicitar acceso</Link><Link className="text-link" href="/precios">Ver planes →</Link></div>
         </div>
         <div className="actas-summary" aria-label="Resultado del flujo de actas">
-          <span>Original privado</span><b>Audio · Foto · PDF · Notas</b>
+          <span>Original privado</span><b>Foto de apuntes · Notas</b>
           <span>Revisión humana</span><b>Asistentes · Votos · Acuerdos</b>
           <span>Resultado operativo</span><b>Tareas · Memoria · PDF · Envío</b>
         </div>

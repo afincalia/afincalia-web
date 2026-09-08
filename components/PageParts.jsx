@@ -6,7 +6,7 @@ import { CTA, DEMO_URL, Layout } from "./SiteChrome";
 export function Meta({ title, description, path, type = "website" }) {
   const router = useRouter();
   const siteUrl = "https://afincalia.es";
-  const cleanPath = (path || router.asPath || "/").split("?")[0];
+  const cleanPath = (path || router.asPath || "/").split(/[?#]/)[0];
   const canonical = `${siteUrl}${cleanPath === "/" ? "" : cleanPath}`;
   const fullTitle = title.includes("AfincalIA") ? title : `${title} · AfincalIA`;
   return <Head>
@@ -20,9 +20,19 @@ export function Meta({ title, description, path, type = "website" }) {
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${siteUrl}/og-afincalia.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AfincalIA: tu empleado digital para la administración de fincas" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#166447" />
+    <meta name="twitter:image" content={`${siteUrl}/og-afincalia.png`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":`${siteUrl}/#organization`,name:"AfincalIA",url:siteUrl,email:"hola@afincalia.es",logo:`${siteUrl}/apple-touch-icon.png`},{"@type":"WebSite","@id":`${siteUrl}/#website`,url:siteUrl,name:"AfincalIA",inLanguage:"es",publisher:{"@id":`${siteUrl}/#organization`}}]}).replace(/</g,"\\u003c")}} />
   </Head>;
 }
 
