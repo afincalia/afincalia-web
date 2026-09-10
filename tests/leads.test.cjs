@@ -1,11 +1,12 @@
 const { test, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
-const { validateLead, sourcePath, fingerprint, ready, notifyLead } = require('../.test-build/lib/leads.js');
+const { validateLead, sourcePath, fingerprint, ready, notifyLead, leadNotificationRecipient } = require('../.test-build/lib/leads.js');
 const handler = require('../.test-build/pages/api/leads.js').default;
 const originalFetch = global.fetch;
 const originalEnv = {...process.env};
 test('only the explicitly configured preview origin reaches the form backend',async()=>{
   enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';
   const origin='https://afincalia-web-dxnf-controlled-afincalia.vercel.app';process.env.LEAD_PREVIEW_ORIGIN=origin;
   const calls=[];global.fetch=async(url)=>{calls.push(url);if(url.includes('/rpc/'))return new Response(JSON.stringify({lead:{...valid,id:'controlled-preview',created_at:new Date().toISOString()}}));if(url.includes('resend'))return new Response('{"id":"controlled-email"}');return new Response('[]');};
   assert.equal((await send(valid,{origin})).statusCode,201);
@@ -26,6 +27,25 @@ test('preview permission fails closed in production, other branches and malforme
   }
 });
 afterEach(() => { global.fetch = originalFetch; for (const key of Object.keys(process.env)) if (!(key in originalEnv)) delete process.env[key]; Object.assign(process.env, originalEnv); });
+test('preview notification sends only to its configured inbox; production ignores override',async()=>{
+  enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';const recipients=[];
+  global.fetch=async(url,options)=>{if(url.includes('resend')){recipients.push(JSON.parse(options.body).to);return new Response('{"id":"test-email"}');}return new Response('[]');};
+  assert.equal(await notifyLead({...valid,id:'preview',created_at:new Date().toISOString()}),true);
+  process.env.VERCEL_ENV='production';
+  assert.equal(await notifyLead({...valid,id:'production',created_at:new Date().toISOString()}),true);
+  assert.deepEqual(recipients,[['controlled@example.com'],['hola@afincalia.es']]);
+});
+test('missing or multiple preview recipients and other branches cannot send',async()=>{
+  enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  global.fetch=()=>{throw new Error('no outbound request permitted');};
+  for(const recipient of ['', 'invalid','a@example.com,b@example.com','a@example.com; b@example.com','a@example.com\r\nBcc: b@example.com']){
+    process.env.LEAD_PREVIEW_RECIPIENT=recipient;assert.equal(leadNotificationRecipient(),null);assert.equal(ready(),false);
+    assert.equal(await notifyLead({...valid,id:'blocked',created_at:new Date().toISOString()}),false);
+  }
+  process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';process.env.VERCEL_GIT_COMMIT_REF='other-branch';
+  assert.equal(await notifyLead({...valid,id:'other',created_at:new Date().toISOString()}),false);
+});
 const valid = {name:'Prueba QA', company:'Despacho de prueba', email:'qa@example.com',phone:'',communities:'25',message:'Prueba controlada',interest:'demo',source:'/precios?email=private', consent:true,requestId:'bb988fe0-41d3-4b9e-a734-524601c61b1e'};
 function enable() { for(const key of ['AFINCALIA_LEGAL_NAME','AFINCALIA_TAX_ID','AFINCALIA_LEGAL_ADDRESS','AFINCALIA_LEAD_RETENTION','SUPABASE_URL','SUPABASE_SECRET_KEY','RESEND_API_KEY','AFINCALIA_EMAIL_FROM','LEAD_RATE_SECRET','CRON_SECRET']) process.env[key]='test-only'; process.env.SUPABASE_URL='https://example.supabase.co';process.env.LEADS_ENABLED='true'; }
 function response() { return {statusCode:200,body:null,headers:{},setHeader(k,v){this.headers[k]=v;},status(n){this.statusCode=n;return this;},json(b){this.body=b;return this;},end(){return this;}}; }
