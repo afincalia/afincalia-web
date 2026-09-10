@@ -1,6 +1,6 @@
 import { createHash, createHmac } from 'node:crypto';
 
-export const PRIVACY_VERSION = '2026-09-08';
+export const PRIVACY_VERSION = '2026-09-10';
 export const LEAD_QA_SOURCE = '/qa/validacion-formulario';
 export function leadNotificationSourceFilter() {
   return `source=${process.env.VERCEL_ENV === 'preview' ? 'eq' : 'neq'}.${encodeURIComponent(LEAD_QA_SOURCE)}`;
@@ -55,9 +55,15 @@ export function leadNotificationRecipient(): string | null {
   const recipient = process.env.LEAD_PREVIEW_RECIPIENT?.trim() || '';
   return recipient.length <= 254 && /^[^\s@,;<>\x00-\x1f]+@[^\s@,;<>\x00-\x1f]+\.[^\s@,;<>\x00-\x1f]+$/.test(recipient) ? recipient : null;
 }
+export function previewTrialOpen() {
+  if (process.env.VERCEL_ENV !== 'preview') return true;
+  const until = Date.parse(process.env.LEAD_PREVIEW_EXPIRES_AT || '');
+  const remaining = until - Date.now();
+  return process.env.VERCEL_GIT_COMMIT_REF === 'codex/validacion-formulario' && Number.isFinite(until) && remaining > 0 && remaining <= 2 * 60 * 60 * 1000;
+}
 export function ready() {
   const l = legalConfig();
-  return process.env.LEADS_ENABLED === 'true' && !!(l.name && l.taxId && l.address && l.retention && leadNotificationRecipient() && process.env.SUPABASE_URL && process.env.SUPABASE_SECRET_KEY && process.env.RESEND_API_KEY && process.env.AFINCALIA_EMAIL_FROM && process.env.LEAD_RATE_SECRET && process.env.CRON_SECRET);
+  return previewTrialOpen() && process.env.LEADS_ENABLED === 'true' && !!(l.name && l.taxId && l.address && l.retention && leadNotificationRecipient() && process.env.SUPABASE_URL && process.env.SUPABASE_SECRET_KEY && process.env.RESEND_API_KEY && process.env.AFINCALIA_EMAIL_FROM && process.env.LEAD_RATE_SECRET && process.env.CRON_SECRET);
 }
 export async function db(path: string, body?: unknown, method = 'POST') {
   const key = process.env.SUPABASE_SECRET_KEY || '';
@@ -74,6 +80,7 @@ export function fingerprint(lead: Lead) {
   return createHash('sha256').update((lead.source === LEAD_QA_SOURCE ? 'qa-form/' : '') + JSON.stringify([lead.email, lead.company.toLowerCase(), lead.interest, lead.message, lead.name, lead.phone, lead.communities])).digest('hex');
 }
 export async function notifyLead(row: Record<string, any>): Promise<boolean> {
+  if (!previewTrialOpen()) return false;
   if ((process.env.VERCEL_ENV === 'preview') !== (row.source === LEAD_QA_SOURCE)) return false;
   if (row.notified_at) return true;
   const recipient = leadNotificationRecipient();

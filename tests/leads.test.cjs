@@ -47,7 +47,7 @@ test('missing or multiple preview recipients and other branches cannot send',asy
   assert.equal(await notifyLead({...valid,id:'other',created_at:new Date().toISOString()}),false);
 });
 const valid = {name:'Prueba QA', company:'Despacho de prueba', email:'qa@example.com',phone:'',communities:'25',message:'Prueba controlada',interest:'demo',source:'/precios?email=private', consent:true,requestId:'bb988fe0-41d3-4b9e-a734-524601c61b1e'};
-function enable() { for(const key of ['AFINCALIA_LEGAL_NAME','AFINCALIA_TAX_ID','AFINCALIA_LEGAL_ADDRESS','AFINCALIA_LEAD_RETENTION','SUPABASE_URL','SUPABASE_SECRET_KEY','RESEND_API_KEY','AFINCALIA_EMAIL_FROM','LEAD_RATE_SECRET','CRON_SECRET']) process.env[key]='test-only'; process.env.SUPABASE_URL='https://example.supabase.co';process.env.LEADS_ENABLED='true'; }
+function enable() { process.env.LEAD_PREVIEW_EXPIRES_AT=new Date(Date.now()+3600000).toISOString(); for(const key of ['AFINCALIA_LEGAL_NAME','AFINCALIA_TAX_ID','AFINCALIA_LEGAL_ADDRESS','AFINCALIA_LEAD_RETENTION','SUPABASE_URL','SUPABASE_SECRET_KEY','RESEND_API_KEY','AFINCALIA_EMAIL_FROM','LEAD_RATE_SECRET','CRON_SECRET']) process.env[key]='test-only'; process.env.SUPABASE_URL='https://example.supabase.co';process.env.LEADS_ENABLED='true'; }
 function response() { return {statusCode:200,body:null,headers:{},setHeader(k,v){this.headers[k]=v;},status(n){this.statusCode=n;return this;},json(b){this.body=b;return this;},end(){return this;}}; }
 async function send(body=valid,headers={}) { const r=response();await handler({method:'POST',headers:{origin:'https://afincalia.es','content-type':'application/json',...headers},body,socket:{remoteAddress:'192.0.2.1'}},r); return r; }
 test('validates and normalizes a complete request without keeping query parameters',()=>{const r=validateLead({...valid,email:' QA@EXAMPLE.COM '});assert.deepEqual(r.errors,{});assert.equal(r.lead.email,'qa@example.com');assert.equal(r.lead.source,'/precios');});
@@ -56,6 +56,7 @@ test('optional phone and community count can be omitted',()=>assert.deepEqual(va
 test('source refuses external URL and personal query strings',()=>{assert.equal(sourcePath('https://evil.example/'),'/');assert.equal(sourcePath('/precios?email=x#abc'),'/precios');});
 test('same lead has stable fingerprint across immediate retry',()=>assert.equal(fingerprint(valid),fingerprint({...valid,requestId:'other',source:'/demo'})));
 test('form activation requires legal data and infrastructure',()=>{enable();assert.equal(ready(),true);delete process.env.AFINCALIA_TAX_ID;assert.equal(ready(),false);});
+test('unapproved retention keeps the form disabled despite other configuration',()=>{enable();delete process.env.AFINCALIA_LEAD_RETENTION;assert.equal(ready(),false);process.env.AFINCALIA_LEAD_RETENTION='  ';assert.equal(ready(),false);});
 test('unavailable backend cannot claim successful receipt',async()=>{delete process.env.LEADS_ENABLED;const r=await send();assert.equal(r.statusCode,503);assert.equal(r.body.ok,undefined);});
 test('cross origin and invalid consent do not call persistence',async()=>{enable();global.fetch=()=>{throw new Error('unexpected call');};assert.equal((await send(valid,{origin:'https://evil.example'})).statusCode,403);assert.equal((await send({...valid,consent:false})).statusCode,422);});
 test('honeypot is rejected without persistence',async()=>{enable();global.fetch=()=>{throw new Error('unexpected call');};assert.equal((await send({...valid,website:'spam'})).statusCode,422);});
@@ -82,4 +83,15 @@ test('QA provenance is server selected and isolated from production deduplicatio
   assert.notEqual(fingerprint(qa),fingerprint(production));
   assert.match(leadNotificationSourceFilter(),/^source=eq\./);
   assert.equal(await notifyLead({...valid,id:'customer',created_at:new Date().toISOString()}),false);
+});
+
+test('preview trial expires without redeployment and fails closed for missing or excessive window',async()=>{
+ enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';
+ assert.equal(ready(),true);
+ global.fetch=()=>{throw new Error('expired trial cannot send');};
+ for(const expiry of ['', 'invalid',new Date(Date.now()-1000).toISOString(),new Date(Date.now()+3*3600000).toISOString()]) {
+  process.env.LEAD_PREVIEW_EXPIRES_AT=expiry; assert.equal(ready(),false);
+  assert.equal(await notifyLead({...valid,source:LEAD_QA_SOURCE,id:'expired-trial',created_at:new Date().toISOString()}),false);
+ }
+ process.env.VERCEL_ENV='production';assert.equal(ready(),true);
 });
