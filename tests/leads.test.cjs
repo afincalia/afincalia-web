@@ -1,6 +1,6 @@
 const { test, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
-const { validateLead, sourcePath, fingerprint, ready, notifyLead, leadNotificationRecipient } = require('../.test-build/lib/leads.js');
+const { validateLead, sourcePath, fingerprint, ready, notifyLead, leadNotificationRecipient, LEAD_QA_SOURCE, leadNotificationSourceFilter } = require('../.test-build/lib/leads.js');
 const handler = require('../.test-build/pages/api/leads.js').default;
 const originalFetch = global.fetch;
 const originalEnv = {...process.env};
@@ -8,7 +8,7 @@ test('only the explicitly configured preview origin reaches the form backend',as
   enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
   process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';
   const origin='https://afincalia-web-dxnf-controlled-afincalia.vercel.app';process.env.LEAD_PREVIEW_ORIGIN=origin;
-  const calls=[];global.fetch=async(url)=>{calls.push(url);if(url.includes('/rpc/'))return new Response(JSON.stringify({lead:{...valid,id:'controlled-preview',created_at:new Date().toISOString()}}));if(url.includes('resend'))return new Response('{"id":"controlled-email"}');return new Response('[]');};
+  const calls=[];global.fetch=async(url)=>{calls.push(url);if(url.includes('/rpc/'))return new Response(JSON.stringify({lead:{...valid,source:LEAD_QA_SOURCE,id:'controlled-preview',created_at:new Date().toISOString()}}));if(url.includes('resend'))return new Response('{"id":"controlled-email"}');return new Response('[]');};
   assert.equal((await send(valid,{origin})).statusCode,201);
   assert.equal(calls.length,3);
   for(const other of ['https://another.vercel.app',origin+'.evil.example','null','',origin+'/'])assert.equal((await send(valid,{origin:other})).statusCode,403);
@@ -31,7 +31,7 @@ test('preview notification sends only to its configured inbox; production ignore
   enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
   process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';const recipients=[];
   global.fetch=async(url,options)=>{if(url.includes('resend')){recipients.push(JSON.parse(options.body).to);return new Response('{"id":"test-email"}');}return new Response('[]');};
-  assert.equal(await notifyLead({...valid,id:'preview',created_at:new Date().toISOString()}),true);
+  assert.equal(await notifyLead({...valid,source:LEAD_QA_SOURCE,id:'preview',created_at:new Date().toISOString()}),true);
   process.env.VERCEL_ENV='production';
   assert.equal(await notifyLead({...valid,id:'production',created_at:new Date().toISOString()}),true);
   assert.deepEqual(recipients,[['controlled@example.com'],['hola@afincalia.es']]);
@@ -69,3 +69,17 @@ test('notification retry uses stable provider idempotency key',async()=>{enable(
 test('uncertain notifications never retry beyond provider idempotency window',async()=>{enable();global.fetch=()=>{throw new Error('must reconcile before sending');};for(const created_at of [undefined,'invalid',new Date(Date.now()-24*60*60*1000).toISOString(),new Date(Date.now()+60000).toISOString()])assert.equal(await notifyLead({...valid,id:'controlled-old',created_at}),false);});
 
 test('expired notifications request reconciliation without starving fresh leads',async()=>{enable();const retry=require('../.test-build/pages/api/lead-notifications.js').default;const calls=[];global.fetch=async(url,options)=>{calls.push(url);if(url.includes('created_at=lte.'))return new Response(JSON.stringify([{id:'old-controlled'}]));if(url.includes('created_at=gt.'))return new Response(JSON.stringify([{...valid,id:'fresh-controlled',created_at:new Date().toISOString()}]));if(url.includes('resend'))return new Response(JSON.stringify({id:'accepted-controlled'}));return new Response('[]');};const r=response();await retry({method:'GET',headers:{authorization:'Bearer test-only'}},r);assert.equal(r.statusCode,503);assert.equal(r.body.sent,1);assert.equal(r.body.reconciliationRequired,true);assert.equal(calls.filter(x=>x.includes('resend')).length,1);});
+
+test('QA provenance is server selected and isolated from production deduplication and retries',async()=>{
+  enable();process.env.VERCEL_ENV='production';
+  const production=validateLead({...valid,source:LEAD_QA_SOURCE}).lead;
+  assert.equal(production.source,'/');
+  assert.match(leadNotificationSourceFilter(),/^source=neq\./);
+  global.fetch=()=>{throw new Error('cross-environment notification');};
+  assert.equal(await notifyLead({...valid,source:LEAD_QA_SOURCE,id:'qa',created_at:new Date().toISOString()}),false);
+  process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';
+  const qa=validateLead(valid).lead;assert.equal(qa.source,LEAD_QA_SOURCE);
+  assert.notEqual(fingerprint(qa),fingerprint(production));
+  assert.match(leadNotificationSourceFilter(),/^source=eq\./);
+  assert.equal(await notifyLead({...valid,id:'customer',created_at:new Date().toISOString()}),false);
+});

@@ -1,6 +1,10 @@
 import { createHash, createHmac } from 'node:crypto';
 
 export const PRIVACY_VERSION = '2026-09-08';
+export const LEAD_QA_SOURCE = '/qa/validacion-formulario';
+export function leadNotificationSourceFilter() {
+  return `source=${process.env.VERCEL_ENV === 'preview' ? 'eq' : 'neq'}.${encodeURIComponent(LEAD_QA_SOURCE)}`;
+}
 // Resend retains idempotency keys for 24 hours. Stop conservatively before expiry.
 // Creation predates every possible attempt, so this bound needs no second outbox.
 export const NOTIFICATION_RETRY_WINDOW_MS = 23 * 60 * 60 * 1000;
@@ -26,6 +30,9 @@ export function validateLead(input: unknown): { lead?: Lead; errors: Record<stri
   const b = input && typeof input === 'object' && !Array.isArray(input) ? input as Record<string, unknown> : {};
   const str = (key: string) => typeof b[key] === 'string' ? (b[key] as string).trim() : '';
   const lead: Lead = { name: str('name'), company: str('company'), email: str('email').toLowerCase(), phone: str('phone'), communities: str('communities'), message: str('message'), interest: str('interest') || 'demo', source: sourcePath(b.source), consent: b.consent === true, website: str('website'), requestId: str('requestId') };
+  // Server-selected provenance. A public request cannot claim the QA source.
+  if (process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_GIT_COMMIT_REF === 'codex/validacion-formulario') lead.source = LEAD_QA_SOURCE;
+  else if (lead.source === LEAD_QA_SOURCE) lead.source = '/';
   const errors: Record<string, string> = {};
   if (lead.name.length < 2 || lead.name.length > 100) errors.name = 'Introduce tu nombre (entre 2 y 100 caracteres).';
   if (lead.company.length < 2 || lead.company.length > 160) errors.company = 'Introduce el nombre del despacho.';
@@ -64,9 +71,10 @@ export function rateHash(ip: string) {
   return createHmac('sha256', process.env.LEAD_RATE_SECRET || '').update(`${new Date().toISOString().slice(0,10)}:${ip}`).digest('hex');
 }
 export function fingerprint(lead: Lead) {
-  return createHash('sha256').update(JSON.stringify([lead.email, lead.company.toLowerCase(), lead.interest, lead.message, lead.name, lead.phone, lead.communities])).digest('hex');
+  return createHash('sha256').update((lead.source === LEAD_QA_SOURCE ? 'qa-form/' : '') + JSON.stringify([lead.email, lead.company.toLowerCase(), lead.interest, lead.message, lead.name, lead.phone, lead.communities])).digest('hex');
 }
 export async function notifyLead(row: Record<string, any>): Promise<boolean> {
+  if ((process.env.VERCEL_ENV === 'preview') !== (row.source === LEAD_QA_SOURCE)) return false;
   if (row.notified_at) return true;
   const recipient = leadNotificationRecipient();
   if (!recipient) return false;
