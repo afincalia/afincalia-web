@@ -1,10 +1,26 @@
 import { createHash, createHmac } from 'node:crypto';
 
-export const PRIVACY_VERSION = '2026-09-08';
+export const PRIVACY_VERSION = '2026-09-10';
+export const LEAD_QA_SOURCE = '/qa/validacion-formulario';
+export function leadNotificationSourceFilter() {
+  return `source=${process.env.VERCEL_ENV === 'preview' ? 'eq' : 'neq'}.${encodeURIComponent(LEAD_QA_SOURCE)}`;
+}
 // Resend retains idempotency keys for 24 hours. Stop conservatively before expiry.
 // Creation predates every possible attempt, so this bound needs no second outbox.
 export const NOTIFICATION_RETRY_WINDOW_MS = 23 * 60 * 60 * 1000;
 export type Lead = { name: string; company: string; email: string; phone: string; communities: string; message: string; interest: string; source: string; consent: boolean; website?: string; requestId: string };
+export function allowedLeadOrigin(origin: unknown): boolean {
+  if (origin === 'https://afincalia.es') return true;
+  if (process.env.NODE_ENV === 'development' && origin === 'http://localhost:3000') return true;
+  // A single operator-selected origin, never a wildcard or a client-supplied Host.
+  if (process.env.VERCEL_ENV !== 'preview' || process.env.VERCEL_GIT_COMMIT_REF !== 'codex/validacion-formulario') return false;
+  const configured = process.env.LEAD_PREVIEW_ORIGIN?.trim();
+  if (!configured || origin !== configured) return false;
+  try {
+    const url = new URL(configured);
+    return url.protocol === 'https:' && url.origin === configured && !url.username && !url.password && !url.port && url.hostname.endsWith('.vercel.app');
+  } catch { return false; }
+}
 export function sourcePath(value: unknown): string {
   if (typeof value !== 'string') return '/';
   const path = value.split(/[?#]/)[0];
@@ -14,6 +30,9 @@ export function validateLead(input: unknown): { lead?: Lead; errors: Record<stri
   const b = input && typeof input === 'object' && !Array.isArray(input) ? input as Record<string, unknown> : {};
   const str = (key: string) => typeof b[key] === 'string' ? (b[key] as string).trim() : '';
   const lead: Lead = { name: str('name'), company: str('company'), email: str('email').toLowerCase(), phone: str('phone'), communities: str('communities'), message: str('message'), interest: str('interest') || 'demo', source: sourcePath(b.source), consent: b.consent === true, website: str('website'), requestId: str('requestId') };
+  // Server-selected provenance. A public request cannot claim the QA source.
+  if (process.env.VERCEL_ENV === 'preview' && process.env.VERCEL_GIT_COMMIT_REF === 'codex/validacion-formulario') lead.source = LEAD_QA_SOURCE;
+  else if (lead.source === LEAD_QA_SOURCE) lead.source = '/';
   const errors: Record<string, string> = {};
   if (lead.name.length < 2 || lead.name.length > 100) errors.name = 'Introduce tu nombre (entre 2 y 100 caracteres).';
   if (lead.company.length < 2 || lead.company.length > 160) errors.company = 'Introduce el nombre del despacho.';
@@ -29,9 +48,22 @@ export function validateLead(input: unknown): { lead?: Lead; errors: Record<stri
 export function legalConfig() {
   return { name: process.env.AFINCALIA_LEGAL_NAME?.trim() || '', taxId: process.env.AFINCALIA_TAX_ID?.trim() || '', address: process.env.AFINCALIA_LEGAL_ADDRESS?.trim() || '', retention: process.env.AFINCALIA_LEAD_RETENTION?.trim() || '' };
 }
+export function leadNotificationRecipient(): string | null {
+  // Production never consumes the QA override. Other previews cannot send.
+  if (process.env.VERCEL_ENV !== 'preview') return 'hola@afincalia.es';
+  if (process.env.VERCEL_GIT_COMMIT_REF !== 'codex/validacion-formulario') return null;
+  const recipient = process.env.LEAD_PREVIEW_RECIPIENT?.trim() || '';
+  return recipient.length <= 254 && /^[^\s@,;<>\x00-\x1f]+@[^\s@,;<>\x00-\x1f]+\.[^\s@,;<>\x00-\x1f]+$/.test(recipient) ? recipient : null;
+}
+export function previewTrialOpen() {
+  if (process.env.VERCEL_ENV !== 'preview') return true;
+  const until = Date.parse(process.env.LEAD_PREVIEW_EXPIRES_AT || '');
+  const remaining = until - Date.now();
+  return process.env.VERCEL_GIT_COMMIT_REF === 'codex/validacion-formulario' && Number.isFinite(until) && remaining > 0 && remaining <= 2 * 60 * 60 * 1000;
+}
 export function ready() {
   const l = legalConfig();
-  return process.env.LEADS_ENABLED === 'true' && !!(l.name && l.taxId && l.address && l.retention && process.env.SUPABASE_URL && process.env.SUPABASE_SECRET_KEY && process.env.RESEND_API_KEY && process.env.AFINCALIA_EMAIL_FROM && process.env.LEAD_RATE_SECRET && process.env.CRON_SECRET);
+  return previewTrialOpen() && process.env.LEADS_ENABLED === 'true' && !!(l.name && l.taxId && l.address && l.retention && leadNotificationRecipient() && process.env.SUPABASE_URL && process.env.SUPABASE_SECRET_KEY && process.env.RESEND_API_KEY && process.env.AFINCALIA_EMAIL_FROM && process.env.LEAD_RATE_SECRET && process.env.CRON_SECRET);
 }
 export async function db(path: string, body?: unknown, method = 'POST') {
   const key = process.env.SUPABASE_SECRET_KEY || '';
@@ -45,10 +77,14 @@ export function rateHash(ip: string) {
   return createHmac('sha256', process.env.LEAD_RATE_SECRET || '').update(`${new Date().toISOString().slice(0,10)}:${ip}`).digest('hex');
 }
 export function fingerprint(lead: Lead) {
-  return createHash('sha256').update(JSON.stringify([lead.email, lead.company.toLowerCase(), lead.interest, lead.message, lead.name, lead.phone, lead.communities])).digest('hex');
+  return createHash('sha256').update((lead.source === LEAD_QA_SOURCE ? 'qa-form/' : '') + JSON.stringify([lead.email, lead.company.toLowerCase(), lead.interest, lead.message, lead.name, lead.phone, lead.communities])).digest('hex');
 }
 export async function notifyLead(row: Record<string, any>): Promise<boolean> {
+  if (!previewTrialOpen()) return false;
+  if ((process.env.VERCEL_ENV === 'preview') !== (row.source === LEAD_QA_SOURCE)) return false;
   if (row.notified_at) return true;
+  const recipient = leadNotificationRecipient();
+  if (!recipient) return false;
   const created = Date.parse(row.created_at);
   const age = Date.now() - created;
   if (!Number.isFinite(age) || age < 0 || age >= NOTIFICATION_RETRY_WINDOW_MS) {
@@ -58,7 +94,7 @@ export async function notifyLead(row: Record<string, any>): Promise<boolean> {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST', signal: AbortSignal.timeout(8000),
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `commercial-lead/${row.id}` },
-    body: JSON.stringify({ from: process.env.AFINCALIA_EMAIL_FROM, to: ['hola@afincalia.es'], reply_to: row.email,
+    body: JSON.stringify({ from: process.env.AFINCALIA_EMAIL_FROM, to: [recipient], reply_to: row.email,
       subject: `Nueva solicitud de ${row.interest === 'piloto' ? 'piloto' : 'demo'} · AfincalIA`,
       text: `Referencia: ${row.id}\nNombre: ${row.name}\nDespacho: ${row.company}\nEmail: ${row.email}\nTeléfono: ${row.phone || 'No indicado'}\nComunidades: ${row.communities || 'No indicado'}\nOrigen: ${row.source}\n\n${row.message || ''}` })
   });

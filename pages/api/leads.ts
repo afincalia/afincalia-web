@@ -1,13 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { db, fingerprint, notifyLead, PRIVACY_VERSION, rateHash, ready, validateLead } from '../../lib/leads';
+import { allowedLeadOrigin, db, fingerprint, notifyLead, PRIVACY_VERSION, rateHash, ready, validateLead } from '../../lib/leads';
 
 export const config = { api: { bodyParser: { sizeLimit: '12kb' } } };
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'GET') return res.status(200).json({ available: ready() });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return res.status(405).json({ error: 'method_not_allowed' }); }
-  const allowed = ['https://afincalia.es', ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])];
-  if (!allowed.includes(String(req.headers.origin || ''))) return res.status(403).json({ error: 'origin_rejected' });
+  if (!allowedLeadOrigin(req.headers.origin)) return res.status(403).json({ error: 'origin_rejected' });
   if (!ready()) return res.status(503).json({ error: 'unavailable' });
   if (!String(req.headers['content-type']).startsWith('application/json')) return res.status(415).json({ error: 'invalid_content_type' });
   const { lead, errors } = validateLead(req.body);

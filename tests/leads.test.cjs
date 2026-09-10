@@ -1,12 +1,53 @@
 const { test, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
-const { validateLead, sourcePath, fingerprint, ready, notifyLead } = require('../.test-build/lib/leads.js');
+const { validateLead, sourcePath, fingerprint, ready, notifyLead, leadNotificationRecipient, LEAD_QA_SOURCE, leadNotificationSourceFilter } = require('../.test-build/lib/leads.js');
 const handler = require('../.test-build/pages/api/leads.js').default;
 const originalFetch = global.fetch;
 const originalEnv = {...process.env};
+test('only the explicitly configured preview origin reaches the form backend',async()=>{
+  enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';
+  const origin='https://afincalia-web-dxnf-controlled-afincalia.vercel.app';process.env.LEAD_PREVIEW_ORIGIN=origin;
+  const calls=[];global.fetch=async(url)=>{calls.push(url);if(url.includes('/rpc/'))return new Response(JSON.stringify({lead:{...valid,source:LEAD_QA_SOURCE,id:'controlled-preview',created_at:new Date().toISOString()}}));if(url.includes('resend'))return new Response('{"id":"controlled-email"}');return new Response('[]');};
+  assert.equal((await send(valid,{origin})).statusCode,201);
+  assert.equal(calls.length,3);
+  for(const other of ['https://another.vercel.app',origin+'.evil.example','null','',origin+'/'])assert.equal((await send(valid,{origin:other})).statusCode,403);
+  assert.equal(calls.length,3);
+});
+test('preview permission fails closed in production, other branches and malformed configuration',async()=>{
+  enable();const origin='https://afincalia-web-dxnf-controlled-afincalia.vercel.app';process.env.LEAD_PREVIEW_ORIGIN=origin;
+  global.fetch=()=>{throw new Error('unexpected persistence');};
+  for(const [environment,branch] of [['production','codex/validacion-formulario'],['preview','main'],['','codex/validacion-formulario']]){
+    process.env.VERCEL_ENV=environment;process.env.VERCEL_GIT_COMMIT_REF=branch;
+    assert.equal((await send(valid,{origin})).statusCode,403);
+  }
+  process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  for(const value of ['http://preview.vercel.app','https://preview.vercel.app:444','https://preview.vercel.app/path','https://user@preview.vercel.app','https://evil.example','*','']){
+    process.env.LEAD_PREVIEW_ORIGIN=value;assert.equal((await send(valid,{origin:value})).statusCode,403);
+  }
+});
 afterEach(() => { global.fetch = originalFetch; for (const key of Object.keys(process.env)) if (!(key in originalEnv)) delete process.env[key]; Object.assign(process.env, originalEnv); });
+test('preview notification sends only to its configured inbox; production ignores override',async()=>{
+  enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';const recipients=[];
+  global.fetch=async(url,options)=>{if(url.includes('resend')){recipients.push(JSON.parse(options.body).to);return new Response('{"id":"test-email"}');}return new Response('[]');};
+  assert.equal(await notifyLead({...valid,source:LEAD_QA_SOURCE,id:'preview',created_at:new Date().toISOString()}),true);
+  process.env.VERCEL_ENV='production';
+  assert.equal(await notifyLead({...valid,id:'production',created_at:new Date().toISOString()}),true);
+  assert.deepEqual(recipients,[['controlled@example.com'],['hola@afincalia.es']]);
+});
+test('missing or multiple preview recipients and other branches cannot send',async()=>{
+  enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';
+  global.fetch=()=>{throw new Error('no outbound request permitted');};
+  for(const recipient of ['', 'invalid','a@example.com,b@example.com','a@example.com; b@example.com','a@example.com\r\nBcc: b@example.com']){
+    process.env.LEAD_PREVIEW_RECIPIENT=recipient;assert.equal(leadNotificationRecipient(),null);assert.equal(ready(),false);
+    assert.equal(await notifyLead({...valid,id:'blocked',created_at:new Date().toISOString()}),false);
+  }
+  process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';process.env.VERCEL_GIT_COMMIT_REF='other-branch';
+  assert.equal(await notifyLead({...valid,id:'other',created_at:new Date().toISOString()}),false);
+});
 const valid = {name:'Prueba QA', company:'Despacho de prueba', email:'qa@example.com',phone:'',communities:'25',message:'Prueba controlada',interest:'demo',source:'/precios?email=private', consent:true,requestId:'bb988fe0-41d3-4b9e-a734-524601c61b1e'};
-function enable() { for(const key of ['AFINCALIA_LEGAL_NAME','AFINCALIA_TAX_ID','AFINCALIA_LEGAL_ADDRESS','AFINCALIA_LEAD_RETENTION','SUPABASE_URL','SUPABASE_SECRET_KEY','RESEND_API_KEY','AFINCALIA_EMAIL_FROM','LEAD_RATE_SECRET','CRON_SECRET']) process.env[key]='test-only'; process.env.SUPABASE_URL='https://example.supabase.co';process.env.LEADS_ENABLED='true'; }
+function enable() { process.env.LEAD_PREVIEW_EXPIRES_AT=new Date(Date.now()+3600000).toISOString(); for(const key of ['AFINCALIA_LEGAL_NAME','AFINCALIA_TAX_ID','AFINCALIA_LEGAL_ADDRESS','AFINCALIA_LEAD_RETENTION','SUPABASE_URL','SUPABASE_SECRET_KEY','RESEND_API_KEY','AFINCALIA_EMAIL_FROM','LEAD_RATE_SECRET','CRON_SECRET']) process.env[key]='test-only'; process.env.SUPABASE_URL='https://example.supabase.co';process.env.LEADS_ENABLED='true'; }
 function response() { return {statusCode:200,body:null,headers:{},setHeader(k,v){this.headers[k]=v;},status(n){this.statusCode=n;return this;},json(b){this.body=b;return this;},end(){return this;}}; }
 async function send(body=valid,headers={}) { const r=response();await handler({method:'POST',headers:{origin:'https://afincalia.es','content-type':'application/json',...headers},body,socket:{remoteAddress:'192.0.2.1'}},r); return r; }
 test('validates and normalizes a complete request without keeping query parameters',()=>{const r=validateLead({...valid,email:' QA@EXAMPLE.COM '});assert.deepEqual(r.errors,{});assert.equal(r.lead.email,'qa@example.com');assert.equal(r.lead.source,'/precios');});
@@ -15,6 +56,7 @@ test('optional phone and community count can be omitted',()=>assert.deepEqual(va
 test('source refuses external URL and personal query strings',()=>{assert.equal(sourcePath('https://evil.example/'),'/');assert.equal(sourcePath('/precios?email=x#abc'),'/precios');});
 test('same lead has stable fingerprint across immediate retry',()=>assert.equal(fingerprint(valid),fingerprint({...valid,requestId:'other',source:'/demo'})));
 test('form activation requires legal data and infrastructure',()=>{enable();assert.equal(ready(),true);delete process.env.AFINCALIA_TAX_ID;assert.equal(ready(),false);});
+test('unapproved retention keeps the form disabled despite other configuration',()=>{enable();delete process.env.AFINCALIA_LEAD_RETENTION;assert.equal(ready(),false);process.env.AFINCALIA_LEAD_RETENTION='  ';assert.equal(ready(),false);});
 test('unavailable backend cannot claim successful receipt',async()=>{delete process.env.LEADS_ENABLED;const r=await send();assert.equal(r.statusCode,503);assert.equal(r.body.ok,undefined);});
 test('cross origin and invalid consent do not call persistence',async()=>{enable();global.fetch=()=>{throw new Error('unexpected call');};assert.equal((await send(valid,{origin:'https://evil.example'})).statusCode,403);assert.equal((await send({...valid,consent:false})).statusCode,422);});
 test('honeypot is rejected without persistence',async()=>{enable();global.fetch=()=>{throw new Error('unexpected call');};assert.equal((await send({...valid,website:'spam'})).statusCode,422);});
@@ -28,3 +70,28 @@ test('notification retry uses stable provider idempotency key',async()=>{enable(
 test('uncertain notifications never retry beyond provider idempotency window',async()=>{enable();global.fetch=()=>{throw new Error('must reconcile before sending');};for(const created_at of [undefined,'invalid',new Date(Date.now()-24*60*60*1000).toISOString(),new Date(Date.now()+60000).toISOString()])assert.equal(await notifyLead({...valid,id:'controlled-old',created_at}),false);});
 
 test('expired notifications request reconciliation without starving fresh leads',async()=>{enable();const retry=require('../.test-build/pages/api/lead-notifications.js').default;const calls=[];global.fetch=async(url,options)=>{calls.push(url);if(url.includes('created_at=lte.'))return new Response(JSON.stringify([{id:'old-controlled'}]));if(url.includes('created_at=gt.'))return new Response(JSON.stringify([{...valid,id:'fresh-controlled',created_at:new Date().toISOString()}]));if(url.includes('resend'))return new Response(JSON.stringify({id:'accepted-controlled'}));return new Response('[]');};const r=response();await retry({method:'GET',headers:{authorization:'Bearer test-only'}},r);assert.equal(r.statusCode,503);assert.equal(r.body.sent,1);assert.equal(r.body.reconciliationRequired,true);assert.equal(calls.filter(x=>x.includes('resend')).length,1);});
+
+test('QA provenance is server selected and isolated from production deduplication and retries',async()=>{
+  enable();process.env.VERCEL_ENV='production';
+  const production=validateLead({...valid,source:LEAD_QA_SOURCE}).lead;
+  assert.equal(production.source,'/');
+  assert.match(leadNotificationSourceFilter(),/^source=neq\./);
+  global.fetch=()=>{throw new Error('cross-environment notification');};
+  assert.equal(await notifyLead({...valid,source:LEAD_QA_SOURCE,id:'qa',created_at:new Date().toISOString()}),false);
+  process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';
+  const qa=validateLead(valid).lead;assert.equal(qa.source,LEAD_QA_SOURCE);
+  assert.notEqual(fingerprint(qa),fingerprint(production));
+  assert.match(leadNotificationSourceFilter(),/^source=eq\./);
+  assert.equal(await notifyLead({...valid,id:'customer',created_at:new Date().toISOString()}),false);
+});
+
+test('preview trial expires without redeployment and fails closed for missing or excessive window',async()=>{
+ enable();process.env.VERCEL_ENV='preview';process.env.VERCEL_GIT_COMMIT_REF='codex/validacion-formulario';process.env.LEAD_PREVIEW_RECIPIENT='controlled@example.com';
+ assert.equal(ready(),true);
+ global.fetch=()=>{throw new Error('expired trial cannot send');};
+ for(const expiry of ['', 'invalid',new Date(Date.now()-1000).toISOString(),new Date(Date.now()+3*3600000).toISOString()]) {
+  process.env.LEAD_PREVIEW_EXPIRES_AT=expiry; assert.equal(ready(),false);
+  assert.equal(await notifyLead({...valid,source:LEAD_QA_SOURCE,id:'expired-trial',created_at:new Date().toISOString()}),false);
+ }
+ process.env.VERCEL_ENV='production';assert.equal(ready(),true);
+});
