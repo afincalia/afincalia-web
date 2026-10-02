@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Meta } from "./PageParts";
-import { CTA, Layout } from "./SiteChrome";
+import { CTA, DEMO_CTA_URL, Layout } from "./SiteChrome";
 
 export default function SearchLanding({ metaTitle, description, path, eyebrow, title, intro, pains, steps, fit, related }) {
   return <Layout>
@@ -9,7 +9,7 @@ export default function SearchLanding({ metaTitle, description, path, eyebrow, t
       <span className="eyebrow">{eyebrow}</span>
       <h1>{title}</h1>
       <p>{intro}</p>
-      <div className="actions"><Link className="button" href="/piloto">Solicitar piloto fundador</Link><Link className="text-link" href="/como-funciona">Ver el flujo completo →</Link></div>
+      <div className="actions"><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="text-link" href="/como-funciona">Ver el flujo completo →</Link></div>
     </section>
     <section className="problem-section page-shell">
       <div className="section-head"><h2>El problema operativo</h2></div>
@@ -21,7 +21,7 @@ export default function SearchLanding({ metaTitle, description, path, eyebrow, t
     </section>
     <section className="content-page page-shell">
       <div className="section-head"><span className="eyebrow">Encaje</span><h2>{fit.title}</h2><p>{fit.text}</p></div>
-      <div className="related-links"><strong>También puede interesarte</strong>{related.map(([label,href])=><Link href={href} key={href}>{label} →</Link>)}</div>
+      <div className="related-links"><strong>También puede interesarte</strong>{related.map(([label,href])=><Link href={href} key={href}>{label.startsWith("Solicitar") ? "Condiciones del piloto" : label} →</Link>)}</div>
     </section>
     <CTA eyebrow="Piloto fundador" title="Prueba un flujo real durante 30 días." text="Seleccionamos un problema prioritario del despacho, medimos el resultado y decidimos con datos si AfincalIA encaja." />
   </Layout>;

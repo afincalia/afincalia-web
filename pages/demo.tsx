@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { Meta } from "../components/PageParts";
 import Link from "next/link";
+import { DEMO_CTA_URL } from "../components/SiteChrome";
 
 const steps = [
   ["Mensaje", "WhatsApp recibido"],
@@ -24,7 +25,7 @@ export default function DemoPage() {
 
   return (
     <div className="demo-shell">
-      <Meta title="Demo de AfincalIA: del mensaje a la tarea" description="Prueba sin registro un caso guiado: mensaje, fuente verificada, revisión humana, incidencia, tarea y trazabilidad." path="/demo" />
+      <Meta title="Demo de AfincalIA: del mensaje a la tarea" description="Recorre un ejemplo ilustrativo con datos ficticios: conversación, revisión humana, incidencia, tarea e historial. Sin envíos ni operaciones reales." path="/demo" />
       <aside className="demo-sidebar">
         <div className="demo-brand"><span className="brand-dots">•••<br/>•••••</span><strong>Afincal<span>IA</span></strong></div>
         <p className="nav-label">TRABAJO DIARIO</p>
@@ -43,16 +44,16 @@ export default function DemoPage() {
       </aside>
 
       <main className="demo-main">
-        <nav className="demo-conversion" aria-label="Navegación de la demo"><Link href="/">← Volver a AfincalIA</Link><Link className="demo-lead" href="/contacto?origen=/demo&interes=piloto">Quiero probar AfincalIA en mi despacho</Link></nav>
+        <nav className="demo-conversion" aria-label="Navegación de la demo"><Link href="/">← Volver a AfincalIA</Link><a className="demo-lead" href={DEMO_CTA_URL}>Solicitar demo</a></nav>
         <header className="demo-topbar">
-          <div><span className="demo-badge">CASO SIMULADO · SIN DATOS REALES</span><b>Caso: fuga de agua en el portal</b></div>
+          <div><span className="demo-badge">DEMO SIMULADA · SIN ENVÍOS</span><b>Caso: fuga de agua en el portal</b></div>
           <div className="progress"><span style={{ width: `${((step + 1) / steps.length) * 100}%` }} /></div>
           <small>{step + 1} de {steps.length}</small>
         </header>
 
         <section className="demo-stage" key={step}>
           <nav className="demo-steps" aria-label="Pasos del recorrido">{steps.map(([name], index) => <button key={name} aria-current={step === index ? "step" : undefined} onClick={() => setStep(index)}>{index + 1}. {name}</button>)}</nav>
-          <div className="stage-heading"><div><p>{steps[step][0]}</p><h1>{steps[step][1]}</h1></div><span className="community-pill">Comunidad Edificio Bahía</span></div>
+          <div className="stage-heading"><div><p>{steps[step][0]}</p><h1>{steps[step][1]}</h1></div><span className="community-pill">Comunidad de demostración</span></div>
 
           {step === 0 && <MessageStep onNext={next} />}
           {step === 1 && <ReplyStep onNext={next} />}
@@ -61,7 +62,7 @@ export default function DemoPage() {
           {step === 4 && <ResolutionStep onNext={next} />}
           {step === 5 && <TimelineStep onNext={next} />}
           {step === 6 && <DashboardStep tab={adminTab} setTab={setAdminTab} />}
-          <nav className="demo-back" aria-label="Continuar el recorrido"><button disabled={step === 0} onClick={() => setStep(value => Math.max(0, value - 1))}>← Paso anterior</button>{step === 6 && <Link href="/contacto?origen=/demo&interes=piloto">Solicitar piloto →</Link>}</nav>
+          <nav className="demo-back" aria-label="Continuar el recorrido"><button disabled={step === 0} onClick={() => setStep(value => Math.max(0, value - 1))}>← Paso anterior</button>{step === 6 && <a href={DEMO_CTA_URL}>Solicitar demo</a>}</nav>
         </section>
       </main>
 
@@ -83,7 +84,7 @@ function Phone({ answered = false }: { answered?: boolean }) {
 }
 
 function MessageStep({ onNext }: { onNext: () => void }) {
-  return <div className="two-col"><Phone/><div className="panel detection"><span className="eyebrow">IDENTIFICACIÓN AUTOMÁTICA</span><div className="match"><i>✓</i><div><b>Contacto reconocido</b><p>María García · Propietaria 2º B</p></div><strong aria-label="Coincidencia ilustrativa">✓</strong></div><dl><div><dt>Comunidad</dt><dd>Comunidad Edificio Bahía</dd></div><div><dt>Canal</dt><dd>WhatsApp Business</dd></div><div><dt>Intención</dt><dd>Nueva incidencia</dd></div><div><dt>Prioridad sugerida</dt><dd><span className="urgent">Urgente</span></dd></div></dl><button className="primary" onClick={onNext}>Preparar respuesta <span>→</span></button></div></div>;
+  return <div className="two-col"><Phone/><div className="panel detection"><span className="eyebrow">CONTEXTO DEL EJEMPLO</span><div className="match"><i>✓</i><div><b>Contacto reconocido</b><p>María García · Propietaria 2º B</p></div><strong aria-label="Coincidencia ilustrativa">✓</strong></div><dl><div><dt>Comunidad</dt><dd>Comunidad de demostración</dd></div><div><dt>Canal</dt><dd>WhatsApp Business</dd></div><div><dt>Intención</dt><dd>Nueva incidencia</dd></div><div><dt>Prioridad sugerida</dt><dd><span className="urgent">Urgente</span></dd></div></dl><button className="primary" onClick={onNext}>Preparar respuesta <span>→</span></button></div></div>;
 }
 
 function ReplyStep({ onNext }: { onNext: () => void }) {
@@ -91,7 +92,7 @@ function ReplyStep({ onNext }: { onNext: () => void }) {
 }
 
 function IncidentStep({ onNext }: { onNext: () => void }) {
-  return <div className="wide-panel"><div className="record-head"><div><span className="status open">ABIERTA</span><h2>Fuga de agua en el portal</h2><p>Creada desde la conversación de María García</p></div><div className="record-id">INC-2026-041</div></div><div className="record-grid"><div><label>Comunidad</label><b>Comunidad Edificio Bahía</b></div><div><label>Prioridad</label><b className="red-text">Urgente</b></div><div><label>Origen</label><b>WhatsApp</b></div><div><label>Responsable</label><b>Sin asignar</b></div></div><div className="description"><label>Descripción</label><p>La vecina informa de una fuga visible en el portal. El suelo comienza a mojarse. Laura ha revisado el caso y aprobado la respuesta. En esta demostración no se realiza ningún envío real.</p></div><div className="linked"><i>↗</i><div><b>Conversación vinculada</b><p>María García · 2 mensajes · 09:17</p></div><span>Origen: conversación</span></div><button className="primary right" onClick={onNext}>Crear tarea vinculada <span>→</span></button></div>;
+  return <div className="wide-panel"><div className="record-head"><div><span className="status open">ABIERTA</span><h2>Fuga de agua en el portal</h2><p>Creada desde la conversación de María García</p></div><div className="record-id">INC-2026-041</div></div><div className="record-grid"><div><label>Comunidad</label><b>Comunidad de demostración</b></div><div><label>Prioridad</label><b className="red-text">Urgente</b></div><div><label>Origen</label><b>WhatsApp</b></div><div><label>Responsable</label><b>Sin asignar</b></div></div><div className="description"><label>Descripción</label><p>La vecina informa de una fuga visible en el portal. El suelo comienza a mojarse. Laura ha revisado el caso y aprobado la respuesta. En esta demostración no se realiza ningún envío real.</p></div><div className="linked"><i>↗</i><div><b>Conversación vinculada</b><p>María García · 2 mensajes · 09:17</p></div><span>Origen: conversación</span></div><button className="primary right" onClick={onNext}>Crear tarea vinculada <span>→</span></button></div>;
 }
 
 function TaskStep({ onNext }: { onNext: () => void }) {
@@ -99,12 +100,12 @@ function TaskStep({ onNext }: { onNext: () => void }) {
 }
 
 function ResolutionStep({ onNext }: { onNext: () => void }) {
-  return <div className="wide-panel"><div className="record-head"><div><span className="status resolved">RESUELTA</span><h2>Contactar con fontanería de guardia</h2><p>Tarea TAR-2026-118 · vinculada a INC-2026-041</p></div><div className="person"><i>LM</i><span><small>Responsable</small><b>Laura Martín</b></span></div></div><div className="resolution-flow"><div className="done"><i>✓</i><span><small>09:20</small><b>Asignada</b></span></div><div className="line"/><div className="done"><i>✓</i><span><small>09:24</small><b>En curso</b></span></div><div className="line"/><div className="done"><i>✓</i><span><small>10:06</small><b>Resuelta</b></span></div></div><div className="resolution-note"><span className="eyebrow">NOTA DE RESOLUCIÓN</span><p>Fontanería Norte localiza una junta dañada, corta el tramo afectado y deja la zona seca. Visita registrada para revisión preventiva mañana a las 09:00.</p></div><div className="result-cards"><div><small>Tiempo de primera actuación</small><b>7 min</b></div><div><small>Tiempo de resolución</small><b>49 min</b></div><div><small>Mensajes perdidos</small><b>0</b></div></div><button className="primary right" onClick={onNext}>Ver cronología completa <span>→</span></button></div>;
+  return <div className="wide-panel"><div className="record-head"><div><span className="status resolved">RESUELTA</span><h2>Contactar con fontanería de guardia</h2><p>Tarea TAR-2026-118 · vinculada a INC-2026-041</p></div><div className="person"><i>LM</i><span><small>Responsable</small><b>Laura Martín</b></span></div></div><div className="resolution-flow"><div className="done"><i>✓</i><span><small>09:20</small><b>Asignada</b></span></div><div className="line"/><div className="done"><i>✓</i><span><small>09:24</small><b>En curso</b></span></div><div className="line"/><div className="done"><i>✓</i><span><small>10:06</small><b>Resuelta</b></span></div></div><div className="resolution-note"><span className="eyebrow">NOTA DE RESOLUCIÓN</span><p>Fontanería Norte localiza una junta dañada, corta el tramo afectado y deja la zona seca. Visita registrada para revisión preventiva mañana a las 09:00.</p></div><div className="result-cards"><div><small>Tiempo ilustrativo · actuación</small><b>7 min</b></div><div><small>Tiempo ilustrativo · resolución</small><b>49 min</b></div><div><small>Datos del recorrido</small><b>Simulados</b></div></div><button className="primary right" onClick={onNext}>Ver cronología completa <span>→</span></button></div>;
 }
 
 function TimelineStep({ onNext }: { onNext: () => void }) {
-  const events = [["10:06","Tarea resuelta","Laura Martín","Se registra la actuación y la visita preventiva."],["09:24","Estado cambiado a En curso","Laura Martín","Fontanería de guardia confirma desplazamiento."],["09:20","Tarea asignada","Sistema","Contactar con fontanería de guardia · Laura Martín."],["09:18","Incidencia creada","Afincalia","Prioridad urgente · origen WhatsApp."],["09:18","Respuesta enviada","Afincalia","Utiliza Protocolo de mantenimiento 2026."],["09:17","Mensaje recibido","María García","Comunidad identificada por el teléfono del contacto."]];
-  return <div className="timeline-layout"><div className="wide-panel"><div className="record-head"><div><span className="eyebrow">COMUNIDAD EDIFICIO BAHÍA</span><h2>Cronología de la incidencia</h2></div><span className="audit-pill">Registro completo</span></div><div className="timeline">{events.map((event,index)=><div className="event" key={event[0]+event[1]}><div className={index===0?"event-dot current":"event-dot"}/><time>{event[0]}</time><div><b>{event[1]}</b><p>{event[3]}</p></div><span>{event[2]}</span></div>)}</div><button className="primary right" onClick={onNext}>Abrir panel del despacho <span>→</span></button></div></div>;
+  const events = [["10:06","Tarea resuelta","Laura Martín","Se registra la actuación y la visita preventiva."],["09:24","Estado cambiado a En curso","Laura Martín","Fontanería de guardia confirma desplazamiento."],["09:20","Tarea asignada","Sistema","Contactar con fontanería de guardia · Laura Martín."],["09:18","Incidencia creada","Afincalia","Prioridad urgente · origen WhatsApp."],["09:18","Respuesta preparada","Laura Martín","Ejemplo de respuesta revisada; no se envía ningún mensaje."],["09:17","Mensaje recibido","María García","Comunidad identificada por el teléfono del contacto."]];
+  return <div className="timeline-layout"><div className="wide-panel"><div className="record-head"><div><span className="eyebrow">COMUNIDAD DE DEMOSTRACIÓN</span><h2>Cronología de la incidencia</h2></div><span className="audit-pill">Registro completo</span></div><div className="timeline">{events.map((event,index)=><div className="event" key={event[0]+event[1]}><div className={index===0?"event-dot current":"event-dot"}/><time>{event[0]}</time><div><b>{event[1]}</b><p>{event[3]}</p></div><span>{event[2]}</span></div>)}</div><button className="primary right" onClick={onNext}>Abrir panel del despacho <span>→</span></button></div></div>;
 }
 
 function DashboardStep({ tab, setTab }: { tab: string; setTab: (tab: string) => void }) {
@@ -114,7 +115,7 @@ function DashboardStep({ tab, setTab }: { tab: string; setTab: (tab: string) => 
     Contactos: <div className="table-card"><div className="table-head"><b>Contactos operativos</b><span>24 contactos</span></div>{[["MG","María García","Propietaria · 2º B","WhatsApp activo"],["FN","Fontanería Norte","Proveedor","Guardia 24 h"],["EL","Elevadores López","Proveedor","Mantenimiento"],["JM","Javier Molina","Presidente","Contacto principal"]].map(r=><div className="table-row contacts" key={r[1]}><i>{r[0]}</i><b>{r[1]}<small>{r[2]}</small></b><span>{r[3]}</span><em>Disponible</em></div>)}</div>,
     Agenda: <div className="calendar"><div className="calendar-main"><div className="calendar-head"><b>Septiembre 2026</b><span>‹ &nbsp; Hoy &nbsp; ›</span></div><div className="weekdays">{["LUN","MAR","MIÉ","JUE","VIE"].map(x=><b key={x}>{x}</b>)}</div><div className="days">{[31,1,2,3,4,7,8,9,10,11].map((x,i)=><div className={x===2?"today":""} key={i}><b>{x}</b>{x===2&&<span>09:00 Revisión portal</span>}{x===5&&<span>18:30 Junta</span>}</div>)}</div></div><div className="agenda-side"><h3>Hoy · 2 septiembre</h3><div><b>09:00</b><span>Revisión preventiva<br/><small>Fontanería Norte · Portal</small></span></div><div><b>12:30</b><span>Seguimiento seguro<br/><small>Llamada · 15 min</small></span></div></div></div>,
   };
-  return <div className="dashboard"><div className="dashboard-title"><div><h2>Comunidad Edificio Bahía</h2><p>Panel ilustrativo: cifras de ejemplo, no resultados de clientes</p></div><span className="health"><i/> Estado general: correcto</span></div><div className="tabs">{Object.keys(content).map(item=><button className={tab===item?"selected":""} key={item} onClick={()=>setTab(item)}>{item}</button>)}</div>{content[tab]}</div>;
+  return <div className="dashboard"><div className="dashboard-title"><div><h2>Comunidad de demostración</h2><p>Panel ilustrativo: cifras de ejemplo, no resultados de clientes</p></div><span className="health"><i/> Estado general: correcto</span></div><div className="tabs">{Object.keys(content).map(item=><button className={tab===item?"selected":""} key={item} onClick={()=>setTab(item)}>{item}</button>)}</div>{content[tab]}</div>;
 }
 
 const styles = `

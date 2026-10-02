@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Meta } from "../components/PageParts";
-import { CTA, Layout } from "../components/SiteChrome";
+import { CTA, DEMO_CTA_URL, Layout } from "../components/SiteChrome";
 
 const steps = [
   ["01", "Añade el original", "Sube una fotografía de los apuntes o pega las notas de la junta. El archivo queda privado y vinculado a su comunidad."],
@@ -20,7 +20,7 @@ export default function Actas() {
           <span className="eyebrow">Actas conectadas con el trabajo</span>
           <h1>Del borrador de la junta a los acuerdos ejecutados.</h1>
           <p>AfincalIA no se limita a guardar un PDF. Estructura el acta, obliga a revisar los datos extraídos y conecta cada acuerdo con la memoria, las tareas y la cronología de la comunidad.</p>
-          <div className="actions"><Link className="button" href="/contacto">Solicitar acceso</Link><Link className="text-link" href="/precios">Ver planes →</Link></div>
+          <div className="actions"><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="text-link" href="/precios">Ver planes →</Link></div>
         </div>
         <div className="actas-summary" aria-label="Resultado del flujo de actas">
           <span>Original privado</span><b>Foto de apuntes · Notas</b>

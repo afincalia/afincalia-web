@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 export const DEMO_URL = "/demo";
 export const EMAIL = "hola@afincalia.es";
+export const DEMO_CTA_URL = "mailto:hola@afincalia.es";
 export const PHONE = "624 934 148";
 export const WA_URL = "https://wa.me/34624934148?text=Hola%2C%20quiero%20conocer%20Afincalia";
 
@@ -56,7 +57,7 @@ export function Header() {
           <Link href="/precios">Precios</Link>
           <Link href="/blog">Recursos</Link>
         </nav>
-        <Link className="button button-small nav-cta" href="/contacto">Solicitar demo</Link>
+        <a className="button button-small nav-cta" href={DEMO_CTA_URL}>Solicitar demo</a>
         <details className="mobile-menu">
           <summary aria-label="Abrir menú"><span /><span /><span /></summary>
           <div className="mobile-panel">
@@ -68,7 +69,7 @@ export function Header() {
             <Link href="/piloto">Piloto</Link>
             <Link href="/precios">Precios</Link>
             <Link href="/blog">Recursos</Link>
-            <Link className="button" href="/contacto">Solicitar demo</Link>
+            <a className="button" href={DEMO_CTA_URL}>Solicitar demo</a>
           </div>
         </details>
       </div>
@@ -80,10 +81,10 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-main">
-        <div><Logo /><p>La capa operativa que convierte conversaciones en respuestas verificadas, incidencias, tareas y seguimiento.</p></div>
+        <div><Logo /><p>Tu empleado digital para organizar conversaciones, información, incidencias, tareas y seguimiento.</p></div>
         <div><h3>Producto</h3>{productLinks.slice(1).map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
         <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link><Link href="/blog">Recursos</Link></div>
-        <div><h3>Contacto</h3><a href={`mailto:${EMAIL}`}>{EMAIL}</a><a href="tel:+34624934148">{PHONE}</a><a href={WA_URL}>WhatsApp</a></div>
+        <div><h3>Contacto</h3><a href={DEMO_CTA_URL}>Solicitar demo</a><span>{EMAIL}</span></div>
       </div>
       <nav className="footer-legal" aria-label="Información legal"><Link href="/aviso-legal">Aviso legal</Link><Link href="/politica-privacidad">Privacidad</Link><Link href="/cookies">Cookies y medición</Link></nav>
       <div className="footer-note"><span>© 2026 Afincalia · Empresa española</span><span>No sustituye al programa contable ni al criterio profesional.</span></div>
@@ -96,11 +97,10 @@ export function Layout({ children }) {
 }
 
 export function CTA({ eyebrow = "Demostración online", title = "Comprueba el flujo con un caso completo.", text = "Recorre una demostración guiada y comprueba cómo Afincalia organiza un caso completo antes de solicitar el piloto." }) {
-  const router = useRouter();
   return (
     <section className="cta-band page-shell">
       <div><span className="eyebrow light">{eyebrow}</span><h2>{title}</h2><p>{text}</p></div>
-      <div className="actions"><Link className="button button-coral" href={{pathname:"/contacto",query:{origen:router.pathname}}}>Solicitar demo</Link><Link className="button button-light" href="/piloto">Ver condiciones del piloto</Link></div>
+      <div className="actions"><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="button button-light" href="/piloto">Ver condiciones del piloto</Link></div>
     </section>
   );
 }

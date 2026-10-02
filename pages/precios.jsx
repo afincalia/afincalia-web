@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Meta } from "../components/PageParts";
-import { Layout } from "../components/SiteChrome";
+import { DEMO_CTA_URL, Layout } from "../components/SiteChrome";
 
 const plans = [
   {
@@ -47,12 +47,12 @@ export default function Precios() {
             <h2>{plan.scope}</h2>
             <p>{plan.description}</p>
             <ul>{plan.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-            <Link className={plan.featured ? "button button-light" : "button"} href="/contacto?interes=piloto&origen=/precios">Solicitar piloto</Link>
+            <a className={plan.featured ? "button button-light" : "button"} href={DEMO_CTA_URL}>Solicitar demo</a>
           </article>
         ))}
       </section>
 
-      <section className="enterprise-price page-shell"><div><span className="eyebrow">Más de 150 comunidades</span><h2>Plan a medida, después de medir el uso real.</h2><p>No fijamos una cifra ficticia sin conocer el volumen de mensajes, documentos, empleados y automatizaciones del despacho.</p></div><Link className="button" href="/contacto?interes=piloto&origen=/precios">Consultar</Link></section>
+      <section className="enterprise-price page-shell"><div><span className="eyebrow">Más de 150 comunidades</span><h2>Plan a medida, después de medir el uso real.</h2><p>No fijamos una cifra ficticia sin conocer el volumen de mensajes, documentos, empleados y automatizaciones del despacho.</p></div><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a></section>
 
       <section className="pilot-price page-shell">
         <div><span className="eyebrow light">Oferta para primeros despachos</span><h2>Un mes de piloto y tres meses más si continúas.</h2><p>El piloto de 30 días es gratuito. Si decides seguir, los tres meses siguientes también serán gratuitos a cambio de uso real y feedback. Después eliges plan y solo se factura con aceptación expresa.</p></div>

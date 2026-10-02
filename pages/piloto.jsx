@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { Meta } from "../components/PageParts";
-import { DEMO_URL, Layout } from "../components/SiteChrome";
+import { DEMO_URL, DEMO_CTA_URL, Layout } from "../components/SiteChrome";
 
 const measures = [
   ["Consultas", "Atendidas y preparadas para revisión"],
@@ -32,7 +31,7 @@ export default function Piloto() {
             <li>Centro de ayuda y soporte escrito cuando sea necesario</li>
             <li>Resumen final de actividad y resultados</li>
           </ul>
-          <div className="actions"><a className="button button-light" href={DEMO_URL}>Abrir demostración</a><Link className="button button-coral" href="/contacto?interes=piloto&origen=/piloto">Solicitar piloto</Link></div>
+          <div className="actions"><a className="button button-light" href={DEMO_URL}>Abrir demostración</a><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a></div>
         </div>
 
         <div className="section-head"><span className="eyebrow">Resultados del piloto</span><h2>No medimos si “gusta”. Medimos el trabajo que organiza.</h2></div>

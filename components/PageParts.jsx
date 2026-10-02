@@ -50,7 +50,7 @@ export function DetailPage({ metaTitle, description, eyebrow, title, intro, imag
     <Layout>
       <Meta title={metaTitle} description={description} />
       <PageHero eyebrow={eyebrow} title={title} text={intro} image={image} imageAlt={imageAlt}>
-        <div className="actions"><a className="button" href={DEMO_URL}>Probar demo</a><Link className="text-link" href="/como-funciona">Ver el caso completo →</Link></div>
+        <div className="actions"><a className="button" href={DEMO_URL}>Ver demo ilustrativa</a><Link className="text-link" href="/como-funciona">Ver el caso completo →</Link></div>
       </PageHero>
       <section className="detail-grid page-shell">
         {outcomes.map((item, index) => <article key={item.title}><span>0{index + 1}</span><h2>{item.title}</h2><p>{item.text}</p></article>)}
