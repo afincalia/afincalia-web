@@ -30,7 +30,7 @@ export default function Actas() {
       </section>
 
       <section className="actas-flow page-shell">
-        <div className="section-head"><span className="eyebrow">El flujo completo</span><h2>La IA prepara. El administrador comprueba y aprueba.</h2><p>Ningún acuerdo se convierte automáticamente en información válida sin revisión.</p></div>
+        <div className="section-head"><span className="eyebrow">El flujo completo</span><h2>AfincalIA prepara el borrador. El administrador comprueba y aprueba.</h2><p>Ningún acuerdo se convierte automáticamente en información válida sin revisión.</p></div>
         <div className="actas-steps">{steps.map(([number, title, text]) => <article key={number}><span>{number}</span><div><h2>{title}</h2><p>{text}</p></div></article>)}</div>
       </section>
 

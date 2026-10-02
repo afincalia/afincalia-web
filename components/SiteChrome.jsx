@@ -10,7 +10,7 @@ export const WA_URL = "https://wa.me/34624934148?text=Hola%2C%20quiero%20conocer
 
 export function Logo() {
   return (
-    <Link href="/" className="brand" aria-label="Afincalia, inicio">
+    <Link href="/" className="brand" aria-label="AfincalIA, inicio">
       <span className="brand-mark" aria-hidden="true">
         {[0, 1, 2, 3, 4, 5, 6, 7].map((dot) => <i key={dot} />)}
       </span>
@@ -63,7 +63,7 @@ export function Header() {
           <div className="mobile-panel">
             <p>Producto</p>
             {productLinks.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
-            <p>Conocer Afincalia</p>
+            <p>Conocer AfincalIA</p>
             <Link href="/como-funciona">Cómo funciona</Link>
             <Link href="/seguridad">Seguridad</Link>
             <Link href="/piloto">Piloto</Link>
@@ -87,7 +87,7 @@ export function Footer() {
         <div><h3>Contacto</h3><a href={DEMO_CTA_URL}>Solicitar demo</a><span>{EMAIL}</span></div>
       </div>
       <nav className="footer-legal" aria-label="Información legal"><Link href="/aviso-legal">Aviso legal</Link><Link href="/politica-privacidad">Privacidad</Link><Link href="/cookies">Cookies y medición</Link></nav>
-      <div className="footer-note"><span>© 2026 Afincalia · Empresa española</span><span>No sustituye al programa contable ni al criterio profesional.</span></div>
+      <div className="footer-note"><span>© 2026 AfincalIA · Empresa española</span><span>No sustituye al programa contable ni al criterio profesional.</span></div>
     </footer>
   );
 }

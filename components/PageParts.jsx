@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { CTA, DEMO_URL, Layout } from "./SiteChrome";
+import { DEMO_CTA_URL, Layout } from "./SiteChrome";
+import { ProductCapture, productScreens } from "./ProductStory";
+import { CommercialCTA } from "./CommercialSections";
 
 export function Meta({ title, description, path, type = "website" }) {
   const router = useRouter();
@@ -45,21 +47,23 @@ export function PageHero({ eyebrow, title, text, image, imageAlt, children }) {
   );
 }
 
-export function DetailPage({ metaTitle, description, eyebrow, title, intro, image, imageAlt, outcomes, process, processTitle, note }) {
+export function DetailPage({ metaTitle, description, eyebrow, title, intro, image, outcomes, process, processTitle, note }) {
+  const screen = productScreens.find(item => item.image === image) || productScreens[0];
   return (
-    <Layout>
+    <Layout><div className="commercial-v2">
       <Meta title={metaTitle} description={description} />
-      <PageHero eyebrow={eyebrow} title={title} text={intro} image={image} imageAlt={imageAlt}>
-        <div className="actions"><a className="button" href={DEMO_URL}>Ver demo ilustrativa</a><Link className="text-link" href="/como-funciona">Ver el caso completo →</Link></div>
-      </PageHero>
-      <section className="detail-grid page-shell">
+      <section className="review-detail-hero page-shell">
+        <div><span className="review-kicker">{eyebrow}</span><h1>{title}</h1><p>{intro}</p><div className="review-actions"><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="review-text-link" href="/demo">Explorar las capturas</Link></div></div>
+        <div><ProductCapture screen={screen} pins={false}/><p className="detail-capture-explanation"><strong>Qué observar:</strong> {screen.points.map(point=>point.text).join(" ")}</p></div>
+      </section>
+      <section className="review-outcomes page-shell">
         {outcomes.map((item, index) => <article key={item.title}><span>0{index + 1}</span><h2>{item.title}</h2><p>{item.text}</p></article>)}
       </section>
-      <section className="split-section page-shell">
-        <div><span className="eyebrow">En la práctica</span><h2>{processTitle}</h2>{note ? <p className="lead">{note}</p> : null}</div>
+      <section className="review-detail-process page-shell">
+        <div><span className="review-kicker">En la práctica</span><h2>{processTitle}</h2>{note ? <p>{note}</p> : null}</div>
         <ol className="process-list">{process.map((item, index) => <li key={item}><b>{index + 1}</b><span>{item}</span></li>)}</ol>
       </section>
-      <CTA />
-    </Layout>
+      <CommercialCTA />
+    </div></Layout>
   );
 }

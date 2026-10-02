@@ -1,51 +1,25 @@
 import Link from "next/link";
 import { Meta } from "../../components/PageParts";
-import { CTA, Layout } from "../../components/SiteChrome";
-
-const rows = [
-  ["01", "Conversación", "Muestra los mensajes, su contacto y comunidad, y las indicaciones de revisión."],
-  ["02", "Conocimiento", "Utiliza información aprobada por el despacho y separada por comunidad."],
-  ["03", "Incidencia", "Permite registrar el trabajo que requiere actuación con prioridad y estado."],
-  ["04", "Tarea", "Asigna trabajo, responsable y fecha sin perder el vínculo con la conversación."],
-  ["05", "Acta", "Prepara un borrador desde las notas de la junta y permite revisar acuerdos, vincular tareas y archivar el PDF aprobado."],
-  ["06", "Cronología", "Conserva decisiones, actualizaciones y resolución en una historia común."],
-];
+import { Layout } from "../../components/SiteChrome";
+import { CommercialCTA, CommercialFAQ, HumanControl, SectionHeading } from "../../components/CommercialSections";
+import { ProductCapture, productScreens } from "../../components/ProductStory";
 
 const areas = [
-  ["Entrada", "Atención por WhatsApp", "Identidad, comunidad, contexto y revisión.", "/producto/whatsapp"],
-  ["Memoria", "Memoria del despacho", "Fuentes y contexto controlados por el equipo.", "/producto/conocimiento"],
-  ["Ejecución", "Incidencias y tareas", "Trabajo asignado, actualizado y resuelto.", "/producto/incidencias-tareas"],
-  ["Juntas", "Actas", "Extracción, revisión, acuerdos, tareas y PDF final.", "/actas"],
-  ["Control", "Trazabilidad", "Una cronología común para el equipo.", "/producto/trazabilidad"],
+  ["Cuando llega una consulta", "Conversaciones con contexto", "Mensajes, contacto, comunidad y necesidad de intervención a la vista. Las respuestas manuales requieren un canal configurado y una decisión de envío.", "/producto/whatsapp", "Conocer las conversaciones"],
+  ["Cuando buscas una respuesta fiable", "Conocimiento por comunidad", "Fuentes y datos revisados, con procedencia y ámbito. El despacho controla qué información incorpora y cuándo la revisa.", "/producto/conocimiento", "Ver cómo se organiza la información"],
+  ["Cuando hace falta actuar", "Incidencias y tareas conectadas", "Registra el trabajo, vincula una tarea y consulta responsable, fecha y estado. Lo completado sigue disponible para revisar el caso.", "/producto/incidencias-tareas", "Conocer el recorrido del trabajo"],
+  ["Cuando termina una junta", "Actas que se pueden revisar", "Prepara un borrador desde las notas, contrasta los acuerdos y archiva el PDF aprobado. Puedes vincular acuerdos a tareas y conocimiento.", "/actas", "Ver el recorrido de un acta"],
+  ["Cuando necesitas saber qué pasó", "Actividad e historial consultables", "El panel y la cronología reúnen el contexto de la comunidad. Revisa actuaciones, cambios y pendientes antes de decidir el siguiente paso.", "/producto/trazabilidad", "Conocer el historial"],
 ];
 
 export default function Producto() {
-  return (
-    <Layout>
-      <Meta title="Producto" description="Conoce cómo la capa operativa de AfincalIA conecta conversaciones, conocimiento, incidencias, tareas y actas." />
-      <section className="overview-intro page-shell">
-        <span className="eyebrow">Vista general del producto</span>
-        <h1>Tu empleado digital, con un alcance definido por el despacho.</h1>
-        <p>AfincalIA conecta conversaciones, información verificada y trabajo pendiente. El equipo consulta los estados, asigna trabajo según sus permisos y ve qué necesita revisión. No sustituye al programa contable ni al criterio profesional.</p>
-      </section>
-      <section className="overview-map page-shell">
-        {rows.map(([number, title, text]) => <div className="overview-row" key={number}><span>{number}</span><h2>{title}</h2><p>{text}</p></div>)}
-      </section>
-      <section className="features-section page-shell">
-        <div className="section-head"><span className="eyebrow">Explora cada área</span><h2>Más detalle, sin promesas genéricas.</h2></div>
-        <div className="feature-grid">
-          {areas.map(([label, title, text, href]) => <Link className="feature-card" href={href} key={href}><small>{label}</small><b>↗</b><h3>{title}</h3><p>{text}</p></Link>)}
-        </div>
-      </section>
-      <section className="pricing-faq page-shell" id="control-humano">
-        <div className="section-head"><span className="eyebrow">Control humano · preguntas frecuentes</span><h2>Tú defines el alcance. El equipo conserva el criterio.</h2></div>
-        <div className="policy-grid">
-          <article><h2>¿AfincalIA decide y ejecuta cualquier cosa sola?</h2><p>No. El equipo conserva las decisiones y la verificación del resultado. La aplicación muestra estados, contexto y controles de intervención; no otorga autoridad para pagos, decisiones jurídicas o contratación de proveedores por un simple mensaje.</p></article>
-          <article><h2>¿Quién puede detener una petición?</h2><p>Un administrador puede detener su seguimiento cuando el estado de la petición lo permite y registrar el motivo. Las demás peticiones mantienen su estado. Si no se sabe si un mensaje llegó a enviarse, hay que revisarlo: detener el seguimiento no demuestra que una avería esté resuelta.</p></article>
-          <article><h2>¿Sustituye al administrador o a su programa contable?</h2><p>No. Organiza atención y operaciones sobre el ámbito configurado, conserva información y ayuda al equipo a dar seguimiento. El despacho mantiene la responsabilidad profesional y su herramienta contable.</p></article>
-        </div>
-      </section>
-      <CTA />
-    </Layout>
-  );
+  return <Layout><div className="commercial-v2">
+    <Meta title="Qué hace AfincalIA" description="Conversaciones, conocimiento, incidencias, tareas y actas: funciones concretas para organizar el trabajo de un despacho de administración de fincas."/>
+    <section className="review-page-hero page-shell"><span className="review-kicker">El producto actual</span><h1>Lo que necesita<br/>un asunto para <em>seguir adelante.</em></h1><p>Contexto para entenderlo, información para revisarlo y trabajo organizado para actuar. Un mismo entorno, con el control del despacho.</p></section>
+    <section className="product-editorial page-shell">{areas.map(([label,title,text,href,link],i)=><article key={href}><span className="product-index">0{i+1}</span><div><small>{label}</small><h2>{title}</h2></div><div><p>{text}</p><Link href={href} className="review-text-link">{link}</Link></div></article>)}</section>
+    <section className="review-product-section"><div className="product-split page-shell"><div><SectionHeading label="Una vista concreta" title="Tu información, dentro de su comunidad." text="En Conocimiento se distinguen fuentes, datos revisados y ámbito. No es una biblioteca genérica separada del trabajo diario."/><ul className="plain-checks"><li>El filtro de comunidad permanece visible.</li><li>Los documentos y los datos tienen su propio lugar.</li><li>La pantalla recuerda cuándo hace falta revisión.</li></ul><Link href="/demo" className="review-text-link">Explorar más capturas</Link></div><ProductCapture screen={productScreens[1]} pins={false}/></div></section>
+    <section className="availability-section page-shell"><SectionHeading label="Un alcance explicado" title="Disponible no significa activado sin control."/><div className="availability-columns"><article><span>Trabajo en la aplicación</span><h3>Consulta y gestiona</h3><p>Conversaciones, fuentes, incidencias, tareas, actas e historial, dentro del ámbito y los permisos de tu usuario.</p></article><article><span>Con configuración y autorización</span><h3>Revisa cada canal</h3><p>Conectar WhatsApp o enviar una comunicación requiere configuración válida. Los recordatorios y seguimientos automáticos no están habilitados por defecto.</p></article><article><span>Decisiones del despacho</span><h3>Comprueba el resultado</h3><p>La aprobación de un acta, el contenido verificado, las excepciones y las decisiones sensibles requieren intervención humana.</p></article></div></section>
+    <section className="review-section page-shell"><HumanControl compact/></section>
+    <CommercialFAQ/><CommercialCTA/>
+  </div></Layout>;
 }
