@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { DEMO_CTA_URL } from "./SiteChrome";
+import ContactEmail from "./ContactEmail";
 
 export const commercialFaqs = [
   ["¿Qué puedo gestionar con AfincalIA?", "Conversaciones y su contexto, información revisada por comunidad, incidencias, tareas y actas. Puedes consultar qué está pendiente y quién debe intervenir. Los canales y automatismos requieren su configuración; no se activan por abrir una cuenta."],
   ["¿Responde y hace seguimiento de todo automáticamente?", "No. La aplicación dispone de controles para respuestas y seguimientos acotados, sujetos a canal, autorización, información suficiente y estado del caso. Los recordatorios automáticos no están habilitados por defecto. Las excepciones y los resultados inciertos necesitan revisión."],
   ["¿Qué ocurre cuando falta información?", "El equipo puede revisar el contexto y las fuentes disponibles. Las peticiones distinguen lo pendiente, la respuesta asociada y las excepciones. Si no se puede confirmar una actuación, no se presenta como completada; se mantiene señalada para revisión."],
   ["¿Qué puede hacer cada persona del despacho?", "El acceso depende del usuario y de su despacho. El administrador gestiona el conocimiento y las actas, y puede intervenir en peticiones cuando su estado lo permite. Los empleados pueden actualizar las tareas asignadas a su usuario."],
-  ["¿Cómo empezamos?", "Primero recorremos una demo con datos de ejemplo y elegimos el caso que quieres evaluar. Después se revisan las comunidades, el equipo, las fuentes y los permisos necesarios. La promoción y las condiciones del piloto están disponibles en su página."],
+  ["¿Cómo empezamos?", "Puedes explorar las capturas de la web por tu cuenta o solicitar una demostración guiada por correo. Si encaja, acordamos un piloto: comunidad, caso de uso, equipo, fuentes y permisos. Ver capturas no crea una cuenta ni activa el piloto."],
   ["¿Sustituye mi programa contable?", "No. AfincalIA se ocupa de la atención y la organización del trabajo descritas aquí. Tu programa contable y las decisiones profesionales siguen formando parte del despacho."],
   ["¿Necesito aportar conversaciones reales para ver la demo?", "No. El recorrido público utiliza capturas y datos de demostración. Para solicitar una presentación solo necesitas escribir a hola@afincalia.es; no hace falta incluir datos de vecinos, credenciales ni documentación privada."],
 ];
@@ -38,6 +39,6 @@ export function CommercialFAQ({ short = false }) {
 export function CommercialCTA() {
   return <section className="review-cta page-shell">
     <div><span className="review-kicker">Hablemos de tu despacho</span><h2>Veamos cómo encaja<br/>en tu trabajo diario.</h2><p>Recorre conversaciones, fuentes, incidencias y tareas. Comprueba qué puede asumir AfincalIA y qué decisiones conserva tu equipo.</p></div>
-    <div className="review-cta-action"><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a><span>hola@afincalia.es</span><small>Se abre tu aplicación de correo.<br/>No se envía nada automáticamente.</small><Link href="/piloto">Ver la promoción y el piloto vigentes</Link></div>
+    <div className="review-cta-action"><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a><ContactEmail /><small>El botón abre tu aplicación de correo. También puedes copiar la dirección y escribir desde tu correo web.</small><Link href="/piloto">Ver la promoción y el piloto vigentes</Link></div>
   </section>;
 }

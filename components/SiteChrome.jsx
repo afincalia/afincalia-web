@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import ContactEmail from "./ContactEmail";
 
 export const DEMO_URL = "/demo";
 export const EMAIL = "hola@afincalia.es";
@@ -84,7 +85,7 @@ export function Footer() {
         <div><Logo /><p>Tu empleado digital para organizar conversaciones, información, incidencias, tareas y seguimiento.</p></div>
         <div><h3>Producto</h3>{productLinks.slice(1).map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
         <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link><Link href="/blog">Recursos</Link></div>
-        <div><h3>Contacto</h3><a href={DEMO_CTA_URL}>Solicitar demo</a><span>{EMAIL}</span></div>
+        <div><h3>Contacto</h3><a href={DEMO_CTA_URL}>Solicitar demo</a><ContactEmail /></div>
       </div>
       <nav className="footer-legal" aria-label="Información legal"><Link href="/aviso-legal">Aviso legal</Link><Link href="/politica-privacidad">Privacidad</Link><Link href="/cookies">Cookies y medición</Link></nav>
       <div className="footer-note"><span>© 2026 AfincalIA · Empresa española</span><span>No sustituye al programa contable ni al criterio profesional.</span></div>
@@ -96,11 +97,11 @@ export function Layout({ children }) {
   return <><a className="skip-link" href="#contenido">Saltar al contenido</a><Header /><main id="contenido">{children}</main><Footer /></>;
 }
 
-export function CTA({ eyebrow = "Demostración online", title = "Comprueba el flujo con un caso completo.", text = "Recorre una demostración guiada y comprueba cómo Afincalia organiza un caso completo antes de solicitar el piloto." }) {
+export function CTA({ eyebrow = "Demostración guiada", title = "Comprueba el flujo con un caso completo.", text = "Solicita una presentación de AfincalIA con datos de ejemplo. Después podemos acordar el caso que quieres evaluar en un piloto." }) {
   return (
     <section className="cta-band page-shell">
       <div><span className="eyebrow light">{eyebrow}</span><h2>{title}</h2><p>{text}</p></div>
-      <div className="actions"><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="button button-light" href="/piloto">Ver condiciones del piloto</Link></div>
+      <div><div className="actions"><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="button button-light" href="/piloto">Ver condiciones del piloto</Link></div><ContactEmail light /></div>
     </section>
   );
 }
