@@ -4,11 +4,11 @@ import { CTA, DEMO_CTA_URL, Layout } from "../components/SiteChrome";
 
 const steps = [
   ["01", "Añade el original", "Sube una fotografía de los apuntes o pega las notas de la junta. El archivo queda privado y vinculado a su comunidad."],
-  ["02", "Obtén el borrador", "AfincalIA transcribe y separa asistentes, orden del día, votaciones, acuerdos, responsables y vencimientos."],
+  ["02", "Prepara el borrador", "A partir del texto disponible, AfincalIA estructura un borrador con asistentes, puntos y acuerdos. Si partes de una fotografía, revisa también la lectura del original: lo que no se reconoce debe completarse o corregirse."],
   ["03", "Revisa la evidencia", "Cada punto permanece pendiente de revisión. El administrador contrasta la extracción con el original y corrige lo necesario."],
   ["04", "Convierte acuerdos en trabajo", "Los acuerdos pueden generar tareas con responsable y fecha sin volver a copiarlos en otra herramienta."],
   ["05", "Aprueba y archiva", "La aprobación humana genera el PDF definitivo, conserva la versión y lo archiva en la comunidad."],
-  ["06", "Envía y conserva", "El PDF aprobado se envía desde un correo profesional y el envío queda registrado en la cronología."],
+  ["06", "Consulta el documento final", "El PDF aprobado queda vinculado a la comunidad y a su historial. Su distribución se decide aparte: archivar el acta no implica que se haya enviado."],
 ];
 
 export default function Actas() {
@@ -18,14 +18,14 @@ export default function Actas() {
       <section className="actas-hero page-shell">
         <div>
           <span className="eyebrow">Actas conectadas con el trabajo</span>
-          <h1>Del borrador de la junta a los acuerdos ejecutados.</h1>
+          <h1>De las notas de la junta al acta revisada.</h1>
           <p>AfincalIA no se limita a guardar un PDF. Estructura el acta, obliga a revisar los datos extraídos y conecta cada acuerdo con la memoria, las tareas y la cronología de la comunidad.</p>
           <div className="actions"><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="text-link" href="/precios">Ver planes →</Link></div>
         </div>
         <div className="actas-summary" aria-label="Resultado del flujo de actas">
           <span>Original privado</span><b>Foto de apuntes · Notas</b>
           <span>Revisión humana</span><b>Asistentes · Votos · Acuerdos</b>
-          <span>Resultado operativo</span><b>Tareas · Memoria · PDF · Envío</b>
+          <span>Resultado operativo</span><b>Tareas · Memoria · PDF archivado</b>
         </div>
       </section>
 

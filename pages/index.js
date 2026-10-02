@@ -6,7 +6,7 @@ const features = [
   ["Conversaciones con contexto", "Consulta los mensajes, el contacto y la comunidad vinculada. El equipo dispone del historial y de las indicaciones de revisión para decidir cómo responder.", "/producto/whatsapp"],
   ["Conocimiento verificado", "Consulta documentos y datos revisados por el despacho, con su comunidad, procedencia y fecha de verificación.", "/producto/conocimiento"],
   ["Incidencias y tareas", "Organiza los avisos que necesitan actuación con contexto, responsable, fecha y estado. El equipo puede consultar y actualizar el trabajo pendiente.", "/producto/incidencias-tareas"],
-  ["Actas", "Revisa borradores, acuerdos y tareas vinculadas a una junta. El administrador conserva la revisión y aprobación del documento.", "/actas"],
+  ["Actas", "Prepara un borrador a partir de tus notas, revisa los acuerdos y vincula tareas. El administrador comprueba el contenido antes de aprobar y archivar el PDF.", "/actas"],
   ["Trazabilidad y control", "Consulta el origen de una petición, su respuesta asociada, su estado y las intervenciones registradas. Recibir información no significa que la avería esté resuelta.", "/producto/trazabilidad"],
 ];
 
@@ -60,7 +60,7 @@ export default function Home() {
       </section>
       <section className="workflow-section page-shell">
         <div className="workflow-frame">
-          <div><span className="eyebrow">Seguimiento por petición</span><h2 className="section-head">Que lo pendiente no dependa de acordarse del chat.</h2><p className="lead">Cada petición conserva su mensaje de origen, la respuesta asociada cuando existe y su estado. Si dispone de un ciclo operable, un administrador puede detener esa petición o registrar una decisión sobre su excepción, sin confundirla con las demás.</p><p>Una petición de información y una actuación del proveedor son cosas distintas. Recibir el dato que falta no cierra la avería: el equipo debe comprobar el resultado.</p><Link className="text-link" href="/como-funciona">Ver cómo funciona →</Link></div>
+          <div><span className="eyebrow">Seguimiento por petición</span><h2 className="section-head">Que lo pendiente no dependa de acordarse del chat.</h2><p className="lead">Cada petición conserva el mensaje de origen, la respuesta asociada cuando existe y su estado. Cuando el estado lo permite, un administrador puede detener su seguimiento o dejar constancia de cómo atender una excepción. Las demás peticiones mantienen su propio estado.</p><p>Recibir la información que faltaba no significa que la avería esté resuelta. El equipo comprueba el resultado antes de cerrar.</p><Link className="text-link" href="/como-funciona">Ver cómo funciona →</Link></div>
           <ol className="workflow-list"><li>Consulta el mensaje y su contexto.</li><li>Revisa la información disponible.</li><li>Decide la respuesta o el trabajo necesario.</li><li>Vincula incidencias, tareas y responsables.</li><li>Consulta cada petición y su estado.</li><li>Revisa excepciones y comprueba el resultado.</li><li>Conserva las actuaciones en el historial.</li></ol>
         </div>
       </section>

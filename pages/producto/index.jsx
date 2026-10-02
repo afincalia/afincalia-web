@@ -7,7 +7,7 @@ const rows = [
   ["02", "Conocimiento", "Utiliza información aprobada por el despacho y separada por comunidad."],
   ["03", "Incidencia", "Permite registrar el trabajo que requiere actuación con prioridad y estado."],
   ["04", "Tarea", "Asigna trabajo, responsable y fecha sin perder el vínculo con la conversación."],
-  ["05", "Acta", "Permite revisar el borrador, los acuerdos y las tareas vinculadas a una junta."],
+  ["05", "Acta", "Prepara un borrador desde las notas de la junta y permite revisar acuerdos, vincular tareas y archivar el PDF aprobado."],
   ["06", "Cronología", "Conserva decisiones, actualizaciones y resolución en una historia común."],
 ];
 
@@ -41,7 +41,7 @@ export default function Producto() {
         <div className="section-head"><span className="eyebrow">Control humano · preguntas frecuentes</span><h2>Tú defines el alcance. El equipo conserva el criterio.</h2></div>
         <div className="policy-grid">
           <article><h2>¿AfincalIA decide y ejecuta cualquier cosa sola?</h2><p>No. El equipo conserva las decisiones y la verificación del resultado. La aplicación muestra estados, contexto y controles de intervención; no otorga autoridad para pagos, decisiones jurídicas o contratación de proveedores por un simple mensaje.</p></article>
-          <article><h2>¿Quién puede detener una petición?</h2><p>Un administrador del despacho puede detener una petición que disponga de un ciclo operable y registrar el motivo. Las otras peticiones mantienen su estado. Si existe una entrega incierta, el caso requiere revisión: detener el seguimiento no demuestra que una avería esté resuelta.</p></article>
+          <article><h2>¿Quién puede detener una petición?</h2><p>Un administrador puede detener su seguimiento cuando el estado de la petición lo permite y registrar el motivo. Las demás peticiones mantienen su estado. Si no se sabe si un mensaje llegó a enviarse, hay que revisarlo: detener el seguimiento no demuestra que una avería esté resuelta.</p></article>
           <article><h2>¿Sustituye al administrador o a su programa contable?</h2><p>No. Organiza atención y operaciones sobre el ámbito configurado, conserva información y ayuda al equipo a dar seguimiento. El despacho mantiene la responsabilidad profesional y su herramienta contable.</p></article>
         </div>
       </section>

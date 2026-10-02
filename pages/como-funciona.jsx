@@ -7,7 +7,7 @@ const steps = [
   ["Se define el siguiente paso", "El equipo decide si responder, pedir información o registrar una incidencia, según el caso y sus permisos.", "/demo/04-incidents.jpg", "Vista de incidencias del piloto: filtros y estado del trabajo."],
   ["El trabajo conserva su contexto", "Incidencias, tareas, responsables y documentos quedan vinculados al asunto correspondiente.", "/demo/04-incidents.jpg", "Listado de incidencias: filtros y estado de un caso con datos simulados."],
   ["Se consulta cada petición", "Cada petición conserva su origen, la respuesta asociada cuando existe y su estado. Una entrega sin confirmar queda señalada para revisión; no se da por aceptada.", "/demo/05-tasks.jpg", "Vista de tareas: filtros de estado, fecha, responsable y comunidad."],
-  ["Una persona verifica lo que lo requiere", "La respuesta de un proveedor puede aportar evidencia; no sustituye la comprobación de una reparación ni autoriza decisiones sensibles.", "/demo/05-tasks.jpg", "Vista de tareas completadas y acceso a su archivo."],
+  ["El equipo comprueba el resultado", "Que un proveedor diga «hecho» no basta para dar una reparación por comprobada. El equipo revisa el resultado y deja constancia de su decisión.", "/demo/05-tasks.jpg", "Vista de tareas completadas y acceso a su archivo."],
   ["Queda una historia consultable", "El despacho ve actuaciones, revisiones, excepciones y estado del caso sin reconstruirlo a partir de mensajes sueltos.", "/demo/07-administration.jpg", "Administración de comunidades con acceso a su cronología."],
 ];
 
