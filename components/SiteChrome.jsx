@@ -22,7 +22,7 @@ export function Logo() {
 
 const productLinks = [
   ["Vista general", "/producto", "Todo el sistema, de principio a fin"],
-  ["Atención por WhatsApp", "/producto/whatsapp", "Identidad, contexto y revisión"],
+  ["Atención por WhatsApp", "/producto/whatsapp", "Del mensaje a la respuesta o actuación"],
   ["Conocimiento verificado", "/producto/conocimiento", "Respuestas basadas en fuentes del despacho"],
   ["Incidencias y tareas", "/producto/incidencias-tareas", "Responsables, estados y seguimiento"],
   ["Actas", "/actas", "De notas o fotos al PDF aprobado"],
@@ -82,7 +82,7 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-main">
-        <div><Logo /><p>Tu empleado digital para organizar conversaciones, información, incidencias, tareas y seguimiento.</p></div>
+        <div><Logo /><p>Tu empleado digital para atender a tus comunidades por WhatsApp. El despacho conserva el control.</p></div>
         <div><h3>Producto</h3>{productLinks.slice(1).map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
         <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link><Link href="/blog">Recursos</Link></div>
         <div><h3>Contacto</h3><a href={DEMO_CTA_URL}>Solicitar demo</a><ContactEmail /></div>

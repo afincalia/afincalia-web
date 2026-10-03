@@ -1,30 +1,25 @@
 import Link from "next/link";
 import { Meta } from "../components/PageParts";
 import { DEMO_CTA_URL, Layout } from "../components/SiteChrome";
-import { ProductCapture, ProductStory, productScreens } from "../components/ProductStory";
+import { ProductStory } from "../components/ProductStory";
+import { WhatsAppCases, WhatsAppExample } from "../components/WhatsAppJourney";
 import { CommercialCTA, CommercialFAQ, HumanControl, SectionHeading } from "../components/CommercialSections";
-
-const dailyWork = [
-  { number: "01", need: "Una consulta sobre una comunidad", title: "El contexto, junto a la conversación.", text: "Consulta mensajes, contacto, comunidad y necesidad de intervención. Revisa la información antes de preparar una respuesta.", href: "/producto/whatsapp", link: "Conversaciones y atención" },
-  { number: "02", need: "Un aviso que necesita actuación", title: "De la incidencia al trabajo asignado.", text: "Registra el caso y vincula tareas con responsable, estado y fecha. Consulta lo pendiente y conserva el trabajo completado.", href: "/producto/incidencias-tareas", link: "Incidencias y tareas" },
-  { number: "03", need: "Una decisión que habrá que recordar", title: "Las fuentes siguen acompañando al caso.", text: "Organiza documentos y datos revisados por comunidad. Consulta su procedencia y la actividad registrada por el equipo.", href: "/producto/conocimiento", link: "Conocimiento y fuentes" },
-];
 
 export default function Home() {
   return <Layout><div className="commercial-v2">
-    <Meta title="AfincalIA · Consultas y trabajo organizado" description="Tu empleado digital para organizar conversaciones, información por comunidad, incidencias, tareas y actas. El contexto a la vista y el control en tu despacho." />
-    <section className="review-hero page-shell">
-      <div className="review-hero-copy"><span className="review-kicker">Para administradores de fincas y despachos</span><h1>De la consulta<br/>al trabajo<br/><em>organizado.</em></h1><p className="review-intro">AfincalIA es el empleado digital del despacho: reúne las consultas con la información de cada comunidad y ayuda a seguir incidencias, tareas y actas. Tu equipo ve qué falta, quién debe intervenir y qué resultado ha quedado registrado.</p><div className="review-actions"><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="review-text-link" href="/demo">Ver capturas del producto</Link></div><p className="review-hero-note">Sin sustituir tu programa contable. Con permisos y revisión del equipo.</p></div>
-      <div className="hero-evidence"><div className="hero-evidence-heading"><span>Así se ve en AfincalIA</span><strong>El trabajo pendiente, localizado.</strong></div><ProductCapture screen={productScreens[2]} pins={false}/><div className="hero-evidence-caption"><span>Qué mirar</span><p>Filtros por comunidad, responsable y estado. Debajo, el aviso simulado que necesita actuación.</p></div><Link href="/demo" className="review-text-link">Explorar las capturas explicadas</Link></div>
+    <Meta title="AfincalIA · Atención a comunidades por WhatsApp" description="Tu empleado digital para atender a tus comunidades por WhatsApp: consultas con información verificada, avisos e incidencias. El despacho conserva el control." />
+    <section className="review-hero wa-hero page-shell">
+      <div className="review-hero-copy"><span className="review-kicker">Para administradores de fincas y despachos</span><h1>Tu empleado digital para atender a tus comunidades <em>por WhatsApp.</em></h1><p className="review-intro">El vecino escribe por WhatsApp; AfincalIA ayuda a atender y organizar; el despacho conserva el control.</p><p className="wa-hero-detail">Puede responder consultas sencillas con información verificada, pedir los datos que faltan y registrar avisos admitidos, con la configuración autorizada. Tu equipo interviene donde hace falta y sigue el trabajo desde el panel.</p><div className="review-actions"><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="review-text-link" href="/demo">Ver el recorrido por WhatsApp</Link></div><p className="review-hero-note">El vecino usa su WhatsApp. Tu despacho mantiene su programa contable.</p></div>
+      <WhatsAppExample />
     </section>
     <nav className="review-section-nav page-shell" aria-label="En esta página"><span>Conoce AfincalIA</span><a href="#trabajo-diario">Qué te ayuda a gestionar</a><a href="#producto-en-pantalla">Cómo se ve</a><a href="#control-humano">Tu control</a><a href="#preguntas-frecuentes">Preguntas frecuentes</a></nav>
     <section className="review-section page-shell" id="trabajo-diario">
-      <SectionHeading label="El trabajo diario" title="Cada asunto necesita algo más que un mensaje." text="Encontrar el contexto, decidir qué hacer y poder volver al resultado. AfincalIA reúne esas piezas en el mismo entorno." />
-      <div className="daily-work-grid">{dailyWork.map(item=><article key={item.number}><div className="daily-work-top"><span>{item.number}</span><p>{item.need}</p></div><h3>{item.title}</h3><p>{item.text}</p><Link href={item.href} className="review-text-link">{item.link}</Link></article>)}</div>
+      <SectionHeading label="Todo empieza con un WhatsApp" title="Tres mensajes. Tres formas de atenderlos." text="Ejemplos explicados de consultas, avisos e intervención humana. La respuesta depende del contexto, las fuentes y los permisos de cada caso." />
+      <WhatsAppCases />
     </section>
     <section className="review-product-section" id="producto-en-pantalla"><div className="page-shell">
-      <SectionHeading label="El producto, en pantalla" title="Mira dónde queda cada cosa." text="Un recorrido por cuatro vistas reales del piloto. Selecciona un paso y descubre qué puede consultar el equipo y qué decisión le corresponde." />
-      <ProductStory id="recorrido-portada" />
+      <SectionHeading label="Así lo controla tu despacho" title="La conversación inicia el trabajo. El panel le da continuidad." text="Cinco vistas reales con datos de demostración: conversación, comunidad, información, incidencia y tarea. Aquí ves dónde revisa e interviene tu equipo." />
+      <ProductStory includeConversation id="recorrido-portada" />
       <div className="story-footnote"><span>Capturas reales · datos de demostración · sin envíos</span><Link href="/como-funciona" className="review-text-link">Entender el recorrido completo</Link></div>
     </div></section>
     <section className="review-section page-shell"><HumanControl /></section>
