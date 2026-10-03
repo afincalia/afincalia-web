@@ -1,6 +1,7 @@
 /* Extends the existing AfincalIA identity. Examples are editorial, not app screenshots. */
 .wa-hero{grid-template-columns:minmax(0,1.06fr) minmax(0,1fr);gap:56px;align-items:center}
 .wa-hero h1{font-size:clamp(2.7rem,4.1vw,4rem);line-height:1.09;letter-spacing:-.04em}
+.wa-hero h1>span,.wa-hero h1>em{display:block}
 .wa-hero .wa-hero-detail{margin-top:20px;font-size:1rem;line-height:1.7}
 .wa-example{margin:0;padding:28px;background:#edf3ee;border:1px solid #cadccf;border-radius:22px;min-width:0}
 .wa-example-heading{display:flex;flex-wrap:wrap;gap:8px 15px;justify-content:space-between;align-items:center;color:#244b35;font-size:.875rem;font-weight:700}

@@ -15,21 +15,21 @@ const measures = [
 export default function Piloto() {
   return (
     <Layout>
-      <Meta title="Piloto online" description="30 días para medir cuánto trabajo puede asumir AfincalIA en un flujo real del despacho." />
+      <Meta title="Piloto gratuito de 30 días" description="Prueba AfincalIA durante 30 días, sin cobro automático ni permanencia. Al terminar, decides si continúas y aceptas expresamente el plan elegido." />
       <section className="content-page page-shell">
         <div className="section-head">
           <span className="eyebrow">Piloto completamente online</span>
           <h1>30 días para comprobar cuánto trabajo puede asumir AfincalIA.</h1>
-          <p>Las capturas te permiten conocer las pantallas. La demostración guiada sirve para resolver dudas con el equipo. El piloto es el paso siguiente: acordamos una comunidad, un caso de uso, responsables y permisos antes de empezar.</p>
+          <p>Las capturas te permiten conocer las pantallas. La demostración guiada sirve para resolver dudas con el equipo. El piloto es el paso siguiente: acordamos las comunidades, los casos de uso, responsables y permisos antes de empezar.</p>
         </div>
 
         <div className="offer-card">
-          <h2>Un mes de piloto gratis.</h2>
-          <p>Sin cobro automático y sin permanencia. Los primeros despachos que continúen después del piloto tendrán además tres meses gratuitos a cambio de utilizar el producto y compartir feedback periódico. El primer cobro llegaría después de esos cuatro meses gratuitos y siempre requerirá aceptación expresa.</p>
+          <h2>30 días de piloto gratuito.</h2>
+          <p>Prueba AfincalIA durante 30 días, sin cobro automático ni permanencia. Al terminar, decides si continúas y aceptas expresamente el plan elegido.</p>
           <ul>
             <li>Recorrido visual disponible sin registro y demo guiada por solicitud</li>
             <li>Configuración online del despacho y del caso prioritario</li>
-            <li>Comunidad, fuentes y permisos revisados antes de empezar</li>
+            <li>Comunidades, fuentes y permisos revisados antes de empezar</li>
             <li>Acompañamiento y soporte escrito durante la evaluación</li>
             <li>Resumen final de actividad y resultados</li>
           </ul>

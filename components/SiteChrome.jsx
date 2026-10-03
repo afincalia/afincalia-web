@@ -46,7 +46,7 @@ export function Header() {
           <details className="nav-dropdown">
             <summary>Producto <span aria-hidden="true">⌄</span></summary>
             <div className="dropdown-panel">
-              <p>La capa operativa del despacho</p>
+              <p>El cerebro de tu despacho</p>
               {productLinks.map(([label, href, description]) => (
                 <Link href={href} key={href}><strong>{label}</strong><span>{description}</span></Link>
               ))}
@@ -82,7 +82,7 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-main">
-        <div><Logo /><p>Tu empleado digital para atender a tus comunidades por WhatsApp. El despacho conserva el control.</p></div>
+        <div><Logo /><p>El cerebro de tu despacho. Tus comunidades, atendidas por WhatsApp. Tu equipo conserva el control.</p></div>
         <div><h3>Producto</h3>{productLinks.slice(1).map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}</div>
         <div><h3>Conocer</h3><Link href="/como-funciona">Cómo funciona</Link><Link href="/seguridad">Privacidad y seguridad</Link><Link href="/piloto">Piloto online</Link><Link href="/precios">Planes y precios</Link><Link href="/blog">Recursos</Link></div>
         <div><h3>Contacto</h3><a href={DEMO_CTA_URL}>Solicitar demo</a><ContactEmail /></div>

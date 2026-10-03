@@ -29,12 +29,12 @@ export function WhatsAppExample() {
     <div className="wa-example-heading"><span>WhatsApp · mensaje del vecino</span><span>Ejemplo explicado</span></div>
     <blockquote>«Hay una gotera.»</blockquote>
     <ol className="wa-example-steps">
-      <li><span>01</span><div><strong>Situar el aviso</strong><p>Contacto y comunidad vinculados; si no constan, interviene el equipo.</p></div></li>
-      <li><span>02</span><div><strong>Pedir el dato que falta</strong><p>«¿En qué zona, portal o planta ocurre?»</p><small>Petición automática, si está autorizada.</small></div></li>
-      <li><span>03</span><div><strong>Preparar la actuación</strong><p>Con ubicación suficiente y dentro del alcance admitido, puede registrar la incidencia. El despacho organiza el trabajo.</p></div></li>
+      <li><span>01</span><div><strong>Situar el aviso</strong><p>Recupera el contexto del contacto y su comunidad. Si no están identificados, interviene el equipo.</p></div></li>
+      <li><span>02</span><div><strong>Pedir el dato que falta</strong><p>«¿En qué zona, portal o planta ocurre?»</p></div></li>
+      <li><span>03</span><div><strong>Preparar la actuación</strong><p>Con los datos necesarios, puede registrar la incidencia. El despacho organiza las tareas y supervisa la actuación.</p></div></li>
     </ol>
-    <div className="wa-example-result"><strong>Del mensaje a un asunto atendido.</strong><p>Registrar el aviso no significa dar la avería por reparada.</p></div>
-    <figcaption>Recorrido ilustrativo sujeto al canal y a los permisos. No es una conversación real ni una prueba de envío.</figcaption>
+    <div className="wa-example-result"><strong>Del mensaje al seguimiento.</strong><p>El equipo comprueba el resultado antes de cerrar la incidencia.</p></div>
+    <figcaption>Ejemplo ilustrativo con información, canal y permisos preparados; no corresponde a una conversación real.</figcaption>
   </figure>;
 }
 

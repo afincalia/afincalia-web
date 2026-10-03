@@ -53,12 +53,12 @@ export default function Precios() {
         ))}
       </section>
 
-      <section className="pricing-scope page-shell"><h2>Incluido no significa automático.</h2><p>Actas, permisos y trazabilidad forman parte del producto. Los canales de comunicación y los seguimientos necesitan configuración y autorización; no se activan al elegir un plan.</p><p>Antes de contratar, consulta el alcance de usuarios, mensajes, documentos, almacenamiento y soporte para tu despacho. El número de comunidades no equivale a consumo ilimitado.</p><ContactEmail /></section>
+      <section className="pricing-scope page-shell"><h2>Un alcance acordado para tu despacho.</h2><p>Actas, permisos y trazabilidad forman parte del producto. Los canales de comunicación y los seguimientos necesitan configuración y autorización; no se activan al elegir un plan.</p><p>Antes de contratar, concretamos usuarios, procesamiento asistido, documentos, almacenamiento y soporte. El coste de la mensajería de WhatsApp se mantiene separado y lo paga directamente el despacho a Meta.</p><ContactEmail /></section>
 
       <section className="enterprise-price page-shell"><div><span className="eyebrow">Más de 150 comunidades</span><h2>Plan a medida, después de medir el uso real.</h2><p>No fijamos una cifra ficticia sin conocer el volumen de mensajes, documentos, empleados y automatizaciones del despacho.</p></div><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a></section>
 
       <section className="pilot-price page-shell">
-        <div><span className="eyebrow light">Oferta para primeros despachos</span><h2>Un mes de piloto y tres meses más si continúas.</h2><p>El piloto de 30 días es gratuito. Si decides seguir, los tres meses siguientes también serán gratuitos a cambio de uso real y feedback. Después eliges plan y solo se factura con aceptación expresa.</p></div>
+        <div><span className="eyebrow light">Conoce AfincalIA en tu despacho</span><h2>30 días de piloto gratuito.</h2><p>Prueba AfincalIA durante 30 días, sin cobro automático ni permanencia. Al terminar, decides si continúas y aceptas expresamente el plan elegido.</p></div>
         <Link className="button button-coral" href="/piloto">Ver condiciones</Link>
       </section>
 
