@@ -214,5 +214,5 @@
 .experience-choices h3{font:27px/1.15 Georgia,serif;margin:16px 0 12px}.experience-choices p{color:var(--muted);font-size:15px;line-height:1.65}
 .experience-choices a{font-size:13px;font-weight:700;color:var(--green);text-underline-offset:4px}
 .pricing-scope{padding:0 0 52px;max-width:900px}.pricing-scope h2{font:32px/1.15 Georgia,serif}.pricing-scope p{line-height:1.65;color:var(--muted)}
-.actas-included{margin-bottom:55px}.review-cta-action .contact-email{justify-content:center}.review-cta-action .copy-email-status{color:white}
+.actas-included{margin-bottom:55px}.review-cta-action .contact-email{justify-content:center}.review-cta-action .copy-email-status{color:inherit}
 @media(max-width:700px){.experience-choices{grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:45px}.experience-choices article{padding:22px 0}.experience-choices h3{font-size:26px}.pricing-scope h2{font-size:28px}.contact-email-address{font-size:15px}}
