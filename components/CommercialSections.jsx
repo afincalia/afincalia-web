@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { DEMO_CTA_URL } from "./SiteChrome";
+import ContactEmail from "./ContactEmail";
 
 export const commercialFaqs = [
-  ["¿Qué puedo gestionar con AfincalIA?", "Conversaciones y su contexto, información revisada por comunidad, incidencias, tareas y actas. Puedes consultar qué está pendiente y quién debe intervenir. Los canales y automatismos requieren su configuración; no se activan por abrir una cuenta."],
-  ["¿Responde y hace seguimiento de todo automáticamente?", "No. La aplicación dispone de controles para respuestas y seguimientos acotados, sujetos a canal, autorización, información suficiente y estado del caso. Los recordatorios automáticos no están habilitados por defecto. Las excepciones y los resultados inciertos necesitan revisión."],
-  ["¿Qué ocurre cuando falta información?", "El equipo puede revisar el contexto y las fuentes disponibles. Las peticiones distinguen lo pendiente, la respuesta asociada y las excepciones. Si no se puede confirmar una actuación, no se presenta como completada; se mantiene señalada para revisión."],
+  ["¿Qué hace AfincalIA con los mensajes de WhatsApp?", "Ayuda a atender consultas y avisos con el contexto de cada comunidad. Con el canal y los permisos adecuados, puede responder consultas sencillas con información verificada, pedir datos que faltan y registrar ciertos avisos. El despacho controla las excepciones, las incidencias y las tareas desde la aplicación."],
+  ["¿Qué puede responder automáticamente y qué revisa el despacho?", "Una consulta sencilla puede recibir una respuesta automática si hay una fuente verificada, contacto y comunidad identificados y autorización de envío. Las consultas económicas, jurídicas, los conflictos y los casos sensibles o ambiguos se derivan al equipo. Los recordatorios necesitan configuración específica y no están habilitados por defecto."],
+  ["¿Qué ocurre cuando falta información?", "En un aviso admitido, puede pedir la ubicación necesaria antes de registrar la incidencia. Si falta identificar el contacto o la comunidad, o no hay una fuente suficiente para responder, se necesita revisión. Las peticiones conservan su origen, la respuesta asociada y su estado; no se inventa un resultado."],
   ["¿Qué puede hacer cada persona del despacho?", "El acceso depende del usuario y de su despacho. El administrador gestiona el conocimiento y las actas, y puede intervenir en peticiones cuando su estado lo permite. Los empleados pueden actualizar las tareas asignadas a su usuario."],
-  ["¿Cómo empezamos?", "Primero recorremos una demo con datos de ejemplo y elegimos el caso que quieres evaluar. Después se revisan las comunidades, el equipo, las fuentes y los permisos necesarios. La promoción y las condiciones del piloto están disponibles en su página."],
+  ["¿Cómo empezamos?", "Puedes explorar las capturas o solicitar una demostración guiada por correo. Si encaja, acordamos las comunidades, casos de uso, equipo, fuentes y permisos de un piloto gratuito de 30 días. Sin cobro automático ni permanencia; al terminar, decides si continúas y aceptas expresamente el plan elegido."],
   ["¿Sustituye mi programa contable?", "No. AfincalIA se ocupa de la atención y la organización del trabajo descritas aquí. Tu programa contable y las decisiones profesionales siguen formando parte del despacho."],
   ["¿Necesito aportar conversaciones reales para ver la demo?", "No. El recorrido público utiliza capturas y datos de demostración. Para solicitar una presentación solo necesitas escribir a hola@afincalia.es; no hace falta incluir datos de vecinos, credenciales ni documentación privada."],
 ];
@@ -17,7 +18,7 @@ export function SectionHeading({ label, title, text, children }) {
 
 export function HumanControl({ compact = false }) {
   return <section className="human-control" id="control-humano">
-    <div className="control-intro"><span className="review-kicker">El control sigue en el despacho</span><h2>Ayuda para avanzar.<br/><em>Criterio para decidir.</em></h2><p>AfincalIA ordena la información y hace visibles los pendientes. Las decisiones del equipo y la comprobación del resultado siguen siendo parte del trabajo.</p><Link href="/seguridad" className="review-text-link">Ver permisos y revisión humana</Link></div>
+    <div className="control-intro"><span className="review-kicker">El control sigue en el despacho</span><h2>Ayuda para atender.<br/><em>Criterio para decidir.</em></h2><p>AfincalIA puede atender los casos autorizados y hace visibles los que necesitan al equipo. Tu despacho revisa las fuentes, decide las actuaciones y comprueba el resultado.</p><Link href="/seguridad" className="review-text-link">Ver permisos y revisión humana</Link></div>
     <div className="control-decisions">
       <article><span>01</span><div><h3>Decide qué información se utiliza</h3><p>El administrador revisa las fuentes de cada comunidad y el contenido que se incorpora como conocimiento.</p></div></article>
       <article><span>02</span><div><h3>Interviene cuando hace falta</h3><p>Las peticiones muestran su estado. Un administrador puede asumir una excepción o detener el seguimiento cuando el estado lo permite.</p></div></article>
@@ -37,7 +38,7 @@ export function CommercialFAQ({ short = false }) {
 
 export function CommercialCTA() {
   return <section className="review-cta page-shell">
-    <div><span className="review-kicker">Hablemos de tu despacho</span><h2>Veamos cómo encaja<br/>en tu trabajo diario.</h2><p>Recorre conversaciones, fuentes, incidencias y tareas. Comprueba qué puede asumir AfincalIA y qué decisiones conserva tu equipo.</p></div>
-    <div className="review-cta-action"><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a><span>hola@afincalia.es</span><small>Se abre tu aplicación de correo.<br/>No se envía nada automáticamente.</small><Link href="/piloto">Ver la promoción y el piloto vigentes</Link></div>
+    <div><span className="review-kicker">Hablemos de tu despacho</span><h2>Veamos la atención<br/>por WhatsApp en tu despacho.</h2><p>Partimos de un mensaje y seguimos su recorrido: respuesta, petición de datos o actuación. Comprueba qué puede asumir AfincalIA y cuándo interviene tu equipo.</p></div>
+    <div className="review-cta-action"><a className="button button-coral" href={DEMO_CTA_URL}>Solicitar demo</a><ContactEmail /><small>El botón abre tu aplicación de correo. También puedes copiar la dirección y escribir desde tu correo web.</small><Link href="/piloto">Ver la promoción y el piloto vigentes</Link></div>
   </section>;
 }

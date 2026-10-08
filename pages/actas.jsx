@@ -3,12 +3,12 @@ import { Meta } from "../components/PageParts";
 import { CTA, DEMO_CTA_URL, Layout } from "../components/SiteChrome";
 
 const steps = [
-  ["01", "Añade el original", "Sube una fotografía de los apuntes o pega las notas de la junta. El archivo queda privado y vinculado a su comunidad."],
+  ["01", "Añade el original", "Pega las notas de la junta o incorpora una fotografía de los apuntes. El original queda privado y vinculado a su comunidad. La extracción desde imagen requiere la lectura de fotografías configurada."],
   ["02", "Prepara el borrador", "A partir del texto disponible, AfincalIA estructura un borrador con asistentes, puntos y acuerdos. Si partes de una fotografía, revisa también la lectura del original: lo que no se reconoce debe completarse o corregirse."],
   ["03", "Revisa la evidencia", "Cada punto permanece pendiente de revisión. El administrador contrasta la extracción con el original y corrige lo necesario."],
   ["04", "Convierte acuerdos en trabajo", "Los acuerdos pueden generar tareas con responsable y fecha sin volver a copiarlos en otra herramienta."],
   ["05", "Aprueba y archiva", "La aprobación humana genera el PDF definitivo, conserva la versión y lo archiva en la comunidad."],
-  ["06", "Consulta el documento final", "El PDF aprobado queda vinculado a la comunidad y a su historial. Su distribución se decide aparte: archivar el acta no implica que se haya enviado."],
+  ["06", "Decide si se envía", "El envío por correo es una acción separada del administrador: requiere el acta aprobada, su PDF archivado, destinatarios elegidos y correo profesional configurado. Archivar no envía el documento automáticamente."],
 ];
 
 export default function Actas() {
@@ -19,7 +19,7 @@ export default function Actas() {
         <div>
           <span className="eyebrow">Actas conectadas con el trabajo</span>
           <h1>De las notas de la junta al acta revisada.</h1>
-          <p>AfincalIA no se limita a guardar un PDF. Estructura el acta, obliga a revisar los datos extraídos y conecta cada acuerdo con la memoria, las tareas y la cronología de la comunidad.</p>
+          <p>Prepara un borrador desde las notas, revisa asistentes y acuerdos y conserva el PDF aprobado. Los acuerdos pueden convertirse en tareas y conocimiento consultable por comunidad. Tú decides cuándo aprobar, archivar y enviar.</p>
           <div className="actions"><a className="button" href={DEMO_CTA_URL}>Solicitar demo</a><Link className="text-link" href="/precios">Ver planes →</Link></div>
         </div>
         <div className="actas-summary" aria-label="Resultado del flujo de actas">
@@ -40,7 +40,8 @@ export default function Actas() {
       </section>
 
       <section className="legal-note page-shell actas-note"><strong>Control profesional:</strong> AfincalIA genera un borrador de trabajo. La exactitud, aprobación, firma y comunicación formal del acta corresponden al presidente, secretario-administrador y demás responsables conforme al procedimiento aplicable.</section>
-      <CTA title="Prueba el recorrido completo de Actas." text="Comprueba cómo un original se convierte en un documento revisado, acuerdos consultables y tareas con seguimiento." />
+      <section className="source-note page-shell actas-included"><strong>Actas está incluida en los tres planes.</strong> Borrador, revisión, versiones, acuerdos, tareas y PDF archivado forman parte del recorrido. La función de envío por correo también está contemplada, pero necesita configuración y una decisión explícita; no queda activada por aprobar el acta.</section>
+      <CTA title="Conoce el recorrido completo de Actas." text="En una demostración guiada revisamos cómo un original se convierte en documento aprobado, acuerdos consultables y tareas. Sin usar información de tus comunidades." />
     </Layout>
   );
 }

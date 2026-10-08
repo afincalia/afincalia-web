@@ -55,8 +55,8 @@ export const productScreens = [
   },
   {
     id: "conversacion", label: "Conversación y respuesta", short: "Conversación",
-    title: "Antes de responder, revisa el contexto y el alcance.",
-    text: "El detalle de la conversación muestra la necesidad de intervención y permite preparar una respuesta manual. El envío depende del canal configurado y de los permisos.",
+    title: "Cuando hace falta intervenir, el contexto está a mano.",
+    text: "Esta captura muestra dónde el equipo puede revisar y preparar una respuesta manual. La indicación de intervención dice si el caso la necesita; aquí figura «No requerida». La captura no prueba un envío automático.",
     image: "/demo/02b-conversation-detail.jpg", crop: [298, 242, 1000, 541],
     alt: "Recorte de conversación sin nombre ni teléfono: intervención humana y formulario de respuesta manual con aviso de envío real.",
     points: [

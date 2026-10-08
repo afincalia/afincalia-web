@@ -197,3 +197,22 @@
 
 .detail-capture-explanation{font-size:.87rem;line-height:1.65;margin:15px 2px 0;color:#526b5a}
 .detail-capture-explanation strong{color:#244b35}
+/* Claridad comercial: contacto copiable y tres formas de conocer el producto. */
+.contact-email{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:16px 0;color:var(--green2);min-width:0}
+.contact-email-address{font-size:16px;font-weight:700;overflow-wrap:anywhere;user-select:all}
+.copy-email{font:inherit;font-size:12px;font-weight:700;border:1px solid currentColor;border-radius:7px;padding:10px 13px;min-height:42px;color:inherit;background:transparent;cursor:pointer}
+.copy-email:hover{background:rgba(22,100,71,.08)}
+.copy-email:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.copy-email-status{display:block;flex-basis:100%;font-size:12px;line-height:1.4;min-height:1.4em}
+.contact-email-light{color:#fff}.contact-email-light .copy-email:hover{background:rgba(255,255,255,.1)}
+.site-footer .contact-email{gap:8px}.site-footer .contact-email-address{font-size:13px}
+.site-footer .copy-email{font-size:11px;padding:8px 10px;min-height:40px}
+.experience-section{padding:25px 0 75px}.experience-section>h2{font:clamp(28px,3.5vw,42px)/1.15 Georgia,serif;max-width:700px}
+.experience-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:30px 0 65px}
+.experience-choices article{border-top:2px solid var(--green);padding:23px 20px 10px 0;min-width:0}
+.experience-choices article>span{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--green);font-weight:800}
+.experience-choices h3{font:27px/1.15 Georgia,serif;margin:16px 0 12px}.experience-choices p{color:var(--muted);font-size:15px;line-height:1.65}
+.experience-choices a{font-size:13px;font-weight:700;color:var(--green);text-underline-offset:4px}
+.pricing-scope{padding:0 0 52px;max-width:900px}.pricing-scope h2{font:32px/1.15 Georgia,serif}.pricing-scope p{line-height:1.65;color:var(--muted)}
+.actas-included{margin-bottom:55px}.review-cta-action .contact-email{justify-content:center}.review-cta-action .copy-email-status{color:inherit}
+@media(max-width:700px){.experience-choices{grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:45px}.experience-choices article{padding:22px 0}.experience-choices h3{font-size:26px}.pricing-scope h2{font-size:28px}.contact-email-address{font-size:15px}}
